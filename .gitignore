@@ -1,0 +1,6 @@
+# Ignore file
+*.env
+*.log
+/dev/
+/lan/
+/wan/
