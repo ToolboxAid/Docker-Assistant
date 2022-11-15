@@ -57,7 +57,7 @@ i.e. sudo ./{script}.sh
 
 You CANNOT move scripts between directories (if you do, learn to debug).
 
-#Steps required to get sites/apps working...
+# Follow these required steps to get sites/apps working...
 
 ## 1 - Clone Docker Assistant
 - Clone docker_assistant to your server. (preferable one (1) level from the root directory) i.e. /volume1/docker_assistant/
