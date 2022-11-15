@@ -24,7 +24,7 @@ Requirements:
   | ############ | none           |null    | local |
 
 
-What these scripts will NOT do for you:
+What this will NOT do for you:
 - Teach you how to debug any issues you may have
 
 
