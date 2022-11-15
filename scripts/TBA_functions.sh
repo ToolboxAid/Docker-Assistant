@@ -200,7 +200,7 @@ all_done(){
         SITE_PATH=./
     fi
 
-	echo -e "${Green}-----------------------------------------"
+	echo -e "${Yellow}-----------------------------------------"
     echo -e "use command: ${Cyan}'cd $SITE_PATH'${Green}" 
     echo -e "use: ${Cyan}'ls -la'${Green} to see current directory listing"
  	echo    "Plese review/update files created for correctness"
@@ -228,7 +228,7 @@ setup_complete(){
 
 #cat  ${COMMON_ENV}
 
-	echo  -e "${Green}-----------------------------------------"
+	echo  -e "${Yellow}-----------------------------------------"
  	echo "Plese review/update files created for correctness"
 	echo "example of editor: 'notepad' 'vi .env' 'vim .env' or 'nano .env' " 
     echo "Some directories/files may require 'root' access to view/edit"
