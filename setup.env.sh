@@ -164,5 +164,6 @@ docker network ls
 setup_complete ${COMMON_ENV}
 above line does not return, so no code executes here and blow
 
+Resets all.
 rm -r dev | rm -r lan | rm -r wan | rm ./templates/.common.env | chmod 775 setup.env.sh
 

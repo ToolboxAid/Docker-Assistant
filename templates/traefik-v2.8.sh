@@ -35,7 +35,7 @@ echo "-----------------------------------------"
 
 usage(){
     echo -e "${Red}Usage: script"
-    echo -e "  'wan' only as it is accessable from Internet${Color_off}"
+    echo -e "  'wan' only as it is accessable from Internet (but the interface will be whitelisted)${Color_off}"
     build_exit 1
 }
 
