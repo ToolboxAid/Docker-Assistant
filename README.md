@@ -68,7 +68,7 @@ You CANNOT move scripts between directories (if you do, learn to debug).
 
 ## 2 Setup environment
 - Execute script 'user@server:/volume1/docker_assistant/ $ sudo ./env.setup.sh'
-  - Please review/update your generated files for correctness :
+  - Please review/update your generated files for correctness
 
 ## 3 Create a dynamic A record for your {DOMAIN_NAME}.com
 
