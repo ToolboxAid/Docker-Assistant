@@ -1,7 +1,6 @@
 # Docker Assistant
 
 
-
 Requirements:
 - These script are written with bash, so a linux kernel is required.
 - You will need root access to execute these scripts
@@ -17,32 +16,34 @@ Requirements:
 - Knowledge of an editor to maintenace/edit your .env files.
   - Pick one of these editors: 'notepad' 'vi .env' 'vim .env' or 'nano .env'
 - Knowledge DNS records you need
+- Start with the default networks only:
+  | NETWORK ID   | NAME           |DRIVER  | SCOPE
+  |--------------|----------------|--------|-------|
+  | ############ | bridge         |bridge  | local |
+  | ############ | host           |host    | local |
+  | ############ | none           |null    | local |
 
-What these scripts will not do for you:
-- How to debug any issues you may have
 
-`#ff0000`
-All scripts, containers, data, etc. are use at your own risk.
-No liability what so ever belongs to me.
-Use at your own risk.
-`#000000`
-The background color should be `#ffffff` for light mode and `#0d1117` for dark mode.
+What these scripts will NOT do for you:
+- Teach you how to debug any issues you may have
 
-Templates are deployed in three locations off the ./docker_assistant/ directory:
-- dev - this is where we try things out, or setup a degug environment. (hard code new things to dev regardless of ENV)
-- lan - local area network, no intarnet access on local lan via a whitelist (wan will receive a not authorized)
-- wan - wide area network, accessible from internet and intranet
 
-Code is off the clone directory ( I used:'./docker_assistant/')
-- custom_data - misc files used durring container setup
-- scripts     - the code (bash scripts)
-- templates   - The directory you will use to deploy a container is './docker/templates/'
+Templates are deployed in two of the three directories off the ./docker_assistant/:
+- lan 1 local area network, no intarnet access, only intranet (local lan) via a whitelist (wan access will receive a not authorized)
+- wan 2 wide area network, accessible from internet and intranet
+- dev X this is where we try things out, or setup a degug environment. (hard code new things to dev regardless of ENV)
+
+
+Your clone directory will contain ( I used:'./docker_assistant/')
+- custom_data - misc files used in a container setup
+- scripts     - re-usable code base (bash scripts)
+- templates   - deployment container and scripts './docker_assistant/templates/'
+
 
 Each template will have a dedicated folder and deployment script
 Naming standard should be {PACKAGE_NAME}-{VERSION}
-I.E. Template: 'whoami' is deploy script 'whoami.sh'
+  - i.e. Template: 'whoami' is deployed using the script 'whoami.sh'
 
-Only the Traefik container has direct access to the internet.  All others flow through Traefick having docker firewall rules in place to assist with security issues.
 
 Every template will contain the below set of scripts (no description as they are self explanatory)
 Currently, these do not have any parameters, so no -h option
@@ -58,32 +59,27 @@ You can execute these by doing:
 i.e. sudo ./{script}.sh
      sudo ./up.sh
 
+
 You cannot move scripts between directories (if you do, learn to debug).
+
 
 After each deployment:
 - You will need to change directory to the deployment folder (it will be displayed to you)
 - Review the '.env' file generated for correctness
-- Execute: sudo up.sh to start the container
-
-# You should start with the default networks:
-networks:
-  web:
-    external: true      #### allows   talking to other containers (used defined network in docker-compose)
-#  blog.qbytesworld.com-db:
-#  torispaintings.com-db:
-  backend:
-#   external: false     #### prevents talking to other containers (creates new network for exe)
-    external: true      #### allows   talking to other containers (used defined network in docker-compose)
+- Execute: sudo ./up.sh to start the container
 
 
 # 1 - Steps required to get sites/apps working...
-- Clone the docker environment to your server. (preferable one (1) level from the root directory) i.e. /volume1/docker/
-- from /volume1,i 'cd' to the directory you use to deploy this software 'cd ./docker/'
-  - git clone https://github.com/ToolboxAid/docker_assistant
+- Clone the docker environment to your server. (preferable one (1) level from the root directory) i.e. /volume1/docker_assistant/
+  - user@server:~/ $ cd /volume1
+  - user@server:/volume1/ $> git clone https://github.com/ToolboxAid/docker_assistant
+- 'cd' to the directory you use to deploy this software
+  - user@server:/volume1/ $ cd ./docker_assistant/
+
 
 
 # 2 Setup environment
-- Execute script 'sudo ./env.setup.sh'
+- Execute script 'user@server:/volume1/docker_assistant/ $ sudo ./env.setup.sh'
   - Please review/update your generated files for correctness :
     - './templates/.common.env' file
     - './scripts/.port_number' (the value will change over time)
@@ -117,7 +113,7 @@ networks:
 
     run ./log.tail.sh and see if is updating or failing.
 
-) Update /docker/templates/ddclient-v3.9.1-ls100/config/ddclient.conf with the below information from your domain provider
+) Update /docker_assistant/templates/ddclient-v3.9.1-ls100/config/ddclient.conf with the below information from your domain provider
 # - - - - - - - - - - YYYY.MM.DD
 protocol=googledomains
 login=
@@ -134,6 +130,8 @@ If no errors, you should now be able to ping your DOMAIN_NAME and get your exter
 
 
 # 6 Traefik proxies network traffic to all of your services over SSL
+Only the Traefik container has direct access to the internet.  All other containers flow through Traefick having the docker firewall rules in place to assist with security issues.
+
 - Logon to your domain and create another Dynamic record forwarding to traefik.wan.{DOMAIN_NAME}
 - update your DDclient with the new DNS information, wait 15 min or ./restart.sh
     use command: 'cd ./templates'  if not already there
@@ -156,6 +154,9 @@ If no errors, you should now be able to ping your DOMAIN_NAME and get your exter
 
 
 #### not a setup script to create .docker_zip.env
-) run a backup of your work './docker/scripts/docker_zip_backup.sh'
+) run a backup of your work './docker_assistant/scripts/docker_zip_backup.sh'
 
 
+# Notes
+- external: false     #### prevents talking to other containers (creates new network for exe)
+- external: true      #### allows   talking to other containers (used defined network in docker-compose)
