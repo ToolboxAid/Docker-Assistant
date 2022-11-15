@@ -66,59 +66,46 @@ You CANNOT move scripts between directories (if you do, learn to debug).
 - 'cd' to the directory you use to deploy this software
   - user@server:/volume1/ $ cd ./docker_assistant/
 
-## 2 Setup environment
+## 2 Setup Docker Assistant environment setup
 - Execute script 'user@server:/volume1/docker_assistant/ $ sudo ./env.setup.sh'
   - Please review/update your generated files for correctness
 
-## 3 Create a dynamic A record for your {DOMAIN_NAME}.com
+## 3 DD-Client setup and create a dynamic A record for your traefik.lan.{YOUR_DOMAIN_NAME}.com
 
-## 4 DD-Client
 - use 'cd ./template' and 'ls -la' to see the templated directory
-- Run DDclient setup - this will point a url to your dynamic external IP
--   (once updated, it could take upto 24 hours to work, my works within 15 min with google DNS)
-- Execute script 'sudo ./ddclient-v3.9.1-ls100.sh' (as of writting this, the version is 'v3.9.1-ls100')
+- Setup DDclient
+  - Execute script 'sudo ./ddclient-v3.9.1-ls100.sh' (as of writting this, the version is 'v3.9.1-ls100')
 
-After each deployment (remember this for the rest of the deployments):
-- You will need to change directory to the deployment folder (it will be displayed to you)
-- Review/edit the '.env' file generated for correctness
-- Execute: user@server:/volume1/docker_assistant/(wan|lan)/packege/ $ sudo ./up.sh to start the container
+- Logon to your domain and create a Dynamic record forwarding to 'traefik.wan.{YOUR_DOMAIN_NAME}'
+  - use command: 'cd /volume1/docker_assistant/lan/ddclient-v3.9.1-ls100/config/'
+  - use: 'ls -la' to see directory listing
 
-- Logon to your domain and create a Dynamic record forwarding to traefik.wan.{DOMAIN_NAME}
-- update your DDclient with the new DNS information, and restart
-    use command: 'cd ./templates'  if not already there
-    use: 'ls -la' to see directory listing
-    cd to '../wan/ddclient-v3.9.1-ls100'
+Update your DDclient config with the new DNS information '/docker_assistant/templates/ddclient-v3.9.1-ls100/config/ddclient.conf' with the below information from your Google domain provider
 
-    If you have a firewall in place, you will need to enter a rule for outbound traffic.
-    The ddclient web subnet will be display
-    You will need to lookup the CIDR of >  xx.xx.xx.xx/16 for most firewal rules
-                                                      /16 subnet is 255.255.0.0
-   you can use something like: https://www.dan.me.uk/ipsubnets
-
-    use: 'sudo ./up.sh' to start the container
-
-    run ./log.tail.sh and see if is updating or failing.
-
-) Update /docker_assistant/templates/ddclient-v3.9.1-ls100/config/ddclient.conf with the below information from your domain provider
-# - - - - - - - - - - YYYY.MM.DD
+```
+YYYY.MM.DD
 protocol=googledomains
 login=
 password=
-{DOMAIN_NAME}.com
-)
+traefik.wan.{YOUR_DOMAIN_NAME}.com
+```
 
-    Execute: 'sudo ./up.sh' to start DDclient
+If you have a firewall in place, you will need to enter a rule for outbound traffic.
+The ddclient web subnet will be display for you
+You may need to lookup the CIDR of >  xx.xx.xx.xx/16 for most firewal rules
+                                                 /16 subnet is 255.255.0.0
+   - you can use something like: https://www.dan.me.uk/ipsubnets
 
-    Execute: './log.tail.sh' and see if is updating or failing.
+Execute: 'sudo ./up.sh' to start DDclient
+Execute: 'sudo ./log.tail.sh' and see if is updating or failing.
 
+- once updated, it could take upto 24 hours or more to work, with Google DNS, my works within 15 min
 If no errors, you should now be able to ping your DOMAIN_NAME and get your external IP
 (assuming the DNS gods are with you, if not, upto 24 hours)
 
-## 5  Point your router to you MAC-VLAN IP (Ports 80 and 443) to the MAC-VLAN ip address
+## 5  Point your router to you MAC-VLAN IP from step 2 to the MAC-VLAN ip address (Ports 80 and 443) 
 - as Traefik will be running on a MAC-VLAN, you can forward port 80 to 80 & 443 to 443
 - I know, no way to test this until Traefik is running.
-
-
 
 ## 6 Traefik proxies network traffic to all of your services over SSL
 Only the Traefik container has direct access to the internet.  All other containers flow through Traefick having the docker firewall rules in place to assist with security issues.
@@ -151,3 +138,8 @@ Only the Traefik container has direct access to the internet.  All other contain
 # Notes
 - external: false     #### prevents talking to other containers (creates new network for exe)
 - external: true      #### allows   talking to other containers (used defined network in docker-compose)
+
+After each deployment where you see a network created (remember to do this):
+- You will need to change directory to the deployment folder (it will be displayed to you)
+- Review/edit the '.env' file generated for correctness
+- Execute: user@server:/volume1/docker_assistant/(wan|lan)/packege/ $ sudo ./up.sh to start the container
