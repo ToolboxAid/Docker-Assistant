@@ -40,9 +40,6 @@ echo "-----------------------------------------"
 
 usage(){
     echo -e "${Red}Usage:  script {ENV} {SITE}'${Color_off}"
-#    echo -e "${Red}Usage:  script {ENV} {SITE}"
-#    echo " ENV: wan,i>>> lan<<<, dev"
-#	echo -e " SITE is something like: 'example.com'${Color_off}"
     build_exit 1
 }
 
@@ -52,12 +49,6 @@ if [ $correctCount != True ]; then
 	build_exit 87 "./"
 fi
 
-
-#ENV stores $1 argument passed to script
-#ENV=$1
-
-#site stores $2 argument passed to script
-#SITE=$2
 
 # validate ENV
 if [ ! $ENV ]; then
@@ -114,14 +105,12 @@ sed -i "s/~SITE~/$SITE/g" $DOCKER_PATH/$ENV/$SITE/.env
 
 #----------------------------------------------------------
 get_router_IP
-#echo $router_IP
 
 get_gateway_info
 
 whiteList="127.0.0.1/32"
 whiteList="${whiteList},$gateway_subnet"
 
-#echo "ADDITIONAL_WHITELIST_SITE : $ADDITIONAL_WHITELIST_SITE"
 if [ $ADDITIONAL_WHITELIST_SITE ]; then
     get_site_ip $ADDITIONAL_WHITELIST_SITE
     if [ $site_ip ]; then
@@ -170,7 +159,6 @@ File created/updated:
     - $DOCKER_PATH/$ENV/$SITE/.env
 
 EOF
-
 
 all_done $DOCKER_PATH/$ENV/$SITE
 above line does not return, so no code to execute here and blow

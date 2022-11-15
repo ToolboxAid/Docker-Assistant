@@ -74,7 +74,7 @@ services:
 
      # Middle Wares
 
-      - "traefik.http.routers.${TRAEFIK}.middlewares=TBA-ratelimit@file,TBA-headers@file,TBA-whitelist@file"
+      - "traefik.http.routers.${TRAEFIK}.middlewares=TBA-ratelimit@file,TBA-headers@file,TBA-whitelist@file,web-to-websecure@internal"
 
      # Services
 
