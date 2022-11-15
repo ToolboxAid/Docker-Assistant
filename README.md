@@ -1,5 +1,7 @@
 # Docker Assistant
 
+Primary site [ToolboxAid.com](https://toolboxaid.com/).
+
 ## Requirements:
 - These script are written with bash, so a linux kernel is required.
 - You will need root access to execute these scripts
@@ -23,24 +25,26 @@
   | ############ | host           |host    | local |
   | ############ | none           |null    | local |
 
-###What this will NOT do for you:
+### What this will NOT do for you:
 - Teach you how to debug any issues you may have
 
-###Templates are deployed in two of the three directories off the ./docker_assistant/:
+**You CANNOT move scripts between directories (if you do, learn to debug).**
+
+### Templates are deployed in two of the three directories off the ./docker_assistant/:
 - lan 1 local area network, no intarnet access, only intranet (local lan) via a whitelist (wan access will receive a not authorized)
 - wan 2 wide area network, accessible from internet and intranet
 - dev X this is where we try things out, or setup a degug environment. (hard code new things to dev regardless of ENV)
 
-###Your clone directory will contain ( I used:'./docker_assistant/')
+### Your clone directory will contain ( I used:'./docker_assistant/')
 - custom_data - misc files used in a container setup
 - scripts     - re-usable code base (bash scripts)
 - templates   - deployment container and scripts './docker_assistant/templates/'
 
-###Each template will have a dedicated folder and deployment script
+### Each template will have a dedicated folder and deployment script
 Naming standard should be {PACKAGE_NAME}-{VERSION}
   - i.e. Template: 'whoami' is deployed using the script 'whoami.sh'
 
-###Every template will contain the below set of scripts (no description as they are self explanatory)
+### Every template will contain the below set of scripts (no description as they are self explanatory)
 Currently, these do not have any parameters, so no -h option
 If the deployment package does not support something, a message will be diplayed when executed
 - attach.sh
@@ -51,11 +55,10 @@ If the deployment package does not support something, a message will be diplayed
 - log.tail.sh
 - restart.sh
 - up.sh
+
 You can execute these by doing:
 i.e. sudo ./{script}.sh
      sudo ./up.sh
-
-###You CANNOT move scripts between directories (if you do, learn to debug).
 
 ## Follow these required steps to get sites/apps working...
 
