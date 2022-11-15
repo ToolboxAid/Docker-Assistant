@@ -1,0 +1,89 @@
+#!/bin/bash
+#
+# Created by Quesenbery, D
+# ToolbaxAid.com
+# Date  10/20/2022
+#
+# dynamic.yml
+#
+
+http:
+
+# ------------------------------------------------------------------
+
+  middlewares:
+
+    TBA-basicAuth:
+      basicAuth:
+        usersFile: /htpasswd
+        realm: ~DOMAIN_NAME~
+
+    TBA-redirect-htaccess:
+      redirectRegex:
+        regex: (.*)htaccess(.*)$
+        replacement: /what?is=this
+
+    TBA-redirect-license:
+      redirectRegex:
+        regex: (.*)license(.*)$
+        replacement: /what?is=this
+
+    TBA-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        referrerPolicy: same-origin
+        permissionsPolicy: 'geolocation=(self), fullscreen=*'
+        stsSeconds: 315360000
+        stsPreload: true
+        stsIncludeSubdomains: true
+        forceSTSHeader: true
+        customFrameOptionsValue: SAMEORIGIN
+        accessControlMaxAge: 31536000
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+        sslProxyHeaders:
+          X-Forwarded-Proto: https
+
+    TBA-whitelist:
+      ipWhiteList:
+        sourceRange: '~IP_WHITE_LIST~'
+
+    # Compress
+    TBA-compress:
+      compress:
+        minResponseBodyBytes: 500
+        excludedContentTypes:
+          - text/event-stream
+
+    # 6 reqs/minute
+    TBA-ratelimit:
+      rateLimit:
+        average: 30
+        period: 1m
+        burst: 60
+
+    # Disable auto-detection
+    test-autodetect:
+      contentType:
+        autoDetect: false
+
+# ------------------------------------------------------------------
+
+  routers:
+    api:
+      rule: Host(`~SITE~`)
+      entrypoints:
+        - websecure
+      middlewares:
+        - TBA-basicAuth
+        - TBA-headers
+        - TBA-whitelist
+        - TBA-compress
+        - TBA-ratelimit
+#        - test-autodetect
+      service: api@internal
+      tls:
+        certResolver: ~CERT_RESOLVER~ 
+

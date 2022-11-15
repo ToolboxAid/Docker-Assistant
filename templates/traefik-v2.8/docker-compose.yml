@@ -1,0 +1,73 @@
+#!/bin/bash
+#
+# Created by Quesenbery, D
+# ToolbaxAid.com
+# Date  10/20/2022
+#
+# "docker-compose.yml" 
+#
+
+version: '3'
+
+services:
+#--------------------------------------------------------
+  traefik:
+    image: traefik:v2.8
+
+    container_name: ${TRAEFIK}
+    hostname:       ${SITE}
+
+    ports:
+      # Listen on port 80, default for HTTP, necessary to redirect to HTTPS
+      - target: 80
+        published: 80
+        mode: host
+      # Listen on port 443, default for HTTPS
+      - target: 443
+        published: 443
+        mode: host
+
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+      - ./traefik.yml:/traefik.yml:ro
+      - ./dynamic.yml:/dynamic.yml:ro
+
+      - ./data/acme.json:/acme.json
+      - ./data/traefik.log:/traefik.log
+      - ./data/access.log:/access.log
+      - ./data/.traefik.htpasswd:/htpasswd:ro
+
+    restart: ${RESTART}
+
+    environment:
+      - TZ=${TIME_ZONE}
+
+    security_opt:
+      - no-new-privileges:true
+
+    networks:
+      router2traefik:
+        ipv4_address: ${TRAEFIK_IP}
+      traefik4wan: {}
+      traefik4lan: {}
+
+    healthcheck:
+      test: ['CMD', 'traefik', 'healthcheck']
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+#------------------------------------------------------------
+networks:
+  router2traefik:
+    external: true
+    name: "${ROUTER_2_TRAEFIK}"
+  traefik4wan:
+    external: true
+    name: "${TRAEFIK_4_WAN}"
+  traefik4lan:
+    name: "${TRAEFIK_4_LAN}"
+    external: true
+

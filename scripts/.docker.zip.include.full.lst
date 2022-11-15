@@ -1,0 +1,6 @@
+docker/custom_data/*
+docker/scripts/*
+docker/templates/*
+docker/dev/*
+docker/lan/*
+docker/wan/*

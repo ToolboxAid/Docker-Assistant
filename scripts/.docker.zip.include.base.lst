@@ -1,0 +1,3 @@
+docker/custom_data/*
+docker/scripts/*
+docker/templates/*

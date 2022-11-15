@@ -1,0 +1,108 @@
+#!/bin/bash
+#
+# Created by Quesenbery, D
+# ToolbaxAid.com
+# Date  10/20/2022
+#
+# Portainer
+#
+# docker-compose.yml
+#
+
+version: '3.8'
+services:
+
+#==================================================================
+  agent:
+    container_name: tasks-agent
+    hostname:       tasks.agent
+    image: portainer/agent:latest
+    environment:
+      # REQUIRED: Should be equal to the service name prefixed by "tasks." when
+      # deployed inside an overlay network
+      AGENT_CLUSTER_ADDR: tasks.agent
+      # AGENT_PORT: 9001
+      # LOG_LEVEL: debug
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data:/var/lib/docker/volumes
+    networks:
+      - agent_network
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.platform.os == linux]
+
+    ports:
+      - target: 9001
+        published: 9001
+        mode: host
+
+#==================================================================
+  portainer:
+    container_name: ${TRAEFIK}
+    hostname:       ${SITE}
+
+    image: portainer/portainer-ce:latest
+
+    command: -H tcp://tasks.agent:9001 --tlsskipverify
+
+    volumes:
+      - ./data:/data
+
+    networks:
+      - public
+      - agent_network
+
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=${TRAEFIK_4_LAN}"
+
+    # Routes
+
+      - "traefik.http.routers.${TRAEFIK}.service=${TRAEFIK}"
+      - "traefik.http.routers.${TRAEFIK}.rule=Host(`${SITE}`)"
+      - "traefik.http.routers.${TRAEFIK}.tls=true"
+      - "traefik.http.routers.${TRAEFIK}.tls.certresolver=${CERT_RESOLVER}"
+      - "traefik.http.routers.${TRAEFIK}.entrypoints=websecure"
+
+     # Middle Wares
+
+      - "traefik.http.routers.${TRAEFIK}.middlewares=TBA-ratelimit@file,TBA-headers@file,TBA-whitelist@file"
+
+     # Services
+
+      - "traefik.http.services.${TRAEFIK}.loadbalancer.server.url=http://${SITE}"
+      - "traefik.http.services.${TRAEFIK}.loadbalancer.server.port=9000"
+      - "traefik.http.services.${TRAEFIK}.loadbalancer.passHostHeader=true"
+
+    # Edge
+      - "traefik.http.routers.edge.service=edge"
+      - "traefik.http.routers.edge.rule=Host(`tasks.agent`)"
+      - "traefik.http.routers.edge.entrypoints=web"
+
+      - "traefik.http.services.edge.loadbalancer.server.port=8000"
+
+    ports:
+      - target: 9000
+        published: 9000
+        mode: host
+      - target: 8000
+        published: 8000
+        mode: host
+
+#==================================================================
+networks:
+  public:
+    name: "${TRAEFIK_4_LAN}"
+    external: true
+  agent_network:
+    name: "${TRAEFIK_4_LAN}"
+    external: true
+

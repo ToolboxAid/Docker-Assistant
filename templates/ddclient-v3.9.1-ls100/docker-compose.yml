@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# Created by Quesenbery, D
+# ToolbaxAid.com
+# Date  10/20/2022
+#
+# docker-compose.yml
+#
+
+version: "2.1"
+services:
+
+#==================================================================
+
+  ddclient:
+    image: lscr.io/linuxserver/ddclient:latest
+
+    container_name: $NAME
+    hostname: $NAME
+
+    volumes:
+      - ./config:/config
+
+    restart: $RESTART
+
+    security_opt:
+      - no-new-privileges:true
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=$TIME_ZONE
+
+    networks:
+      web: {}
+
+#==================================================================
+
+networks:
+    web:
+      name: "${LAN_2_ROUTER}"
+      external: true
+

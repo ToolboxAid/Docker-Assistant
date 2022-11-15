@@ -1,0 +1,73 @@
+
+# Created by Quesenbery, D
+# ToolbaxAid.com
+# Date  10/20/2022
+#
+# docker-compose.yml
+#
+
+version: '3.1'
+services:
+
+#==================================================================
+# need the link to github for phpmyadmin
+
+  phpmyadmin:
+    image: phpmyadmin:5.0.2
+
+    container_name: ${TRAEFIK}
+    hostname: ${SITE}
+
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+    restart: ${RESTART}
+
+    security_opt:
+      - no-new-privileges:true
+
+    environment:
+      - PMA_ARBITRARY=1
+      - TZ=${TIME_ZONE}
+
+    labels:
+       - traefik.enable=true
+       - "traefik.docker.network=${TRAEFIK_4_LAN}"
+
+       - traefik.port=80
+       - traefik.http.routers.${TRAEFIK}.service=${TRAEFIK}
+       - traefik.http.routers.${TRAEFIK}.rule=Host(`${SITE}`)
+       - traefik.http.routers.${TRAEFIK}.tls=true
+       - traefik.http.routers.${TRAEFIK}.tls.certresolver=${CERT_RESOLVER}
+
+       - traefik.http.routers.${TRAEFIK}.entrypoints=websecure
+       # Don't need simpleAuth@file,   Site has its auth.
+       - traefik.http.routers.${TRAEFIK}.middlewares=TBA-headers@file,${TRAEFIK}-whitelist@docker
+
+       - traefik.http.services.${TRAEFIK}.loadbalancer.server.url=http://${SITE}
+       - traefik.http.services.${TRAEFIK}.loadbalancer.server.port=80
+       - traefik.http.services.${TRAEFIK}.loadbalancer.passHostHeader=true
+
+       - traefik.http.middlewares.${TRAEFIK}-whitelist.ipwhitelist.sourcerange=${IP_WHITE_LIST}
+       - traefik.http.middlewares.${TRAEFIK}-whitelist.ipwhitelist.ipstrategy.depth=0  #3
+
+       - traefik.entryPoints.${TRAEFIK}.proxyProtocol.insecure=true
+       - traefik.entryPoints.${TRAEFIK}.proxyProtocol.trustedIPs=${TRUSTED_IP_LIST}
+
+       - traefik.entryPoints.${TRAEFIK}.forwardedHeaders.insecure=true
+       - traefik.entryPoints.${TRAEFIK}.forwardedHeaders.trustedIPs=${TRUSTED_IP_LIST}
+
+    networks:
+      frontend:
+      backend: 
+
+#==================================================================
+networks:
+  frontend:
+    name: "${TRAEFIK_4_LAN}"
+    external: true      #### allows   talking to other containers (used defined network in docker-compose)
+  backend:
+    name: "${LAN_2_DATABASE}"
+    external: true      #### allows   talking to other containers (used defined network in docker-compose)
+

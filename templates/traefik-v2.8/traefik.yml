@@ -1,0 +1,93 @@
+#!/bin/bash
+#
+# Created by Quesenbery, D
+# ToolbaxAid.com
+# Date  10/20/2022
+#
+# traefik.yml
+#
+
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: true
+
+
+
+#=======================================================
+#  EntryPoints
+#=======================================================
+entryPoints:
+
+  web:
+    address: ':80'
+
+  websecure:
+    address: ':443'
+    proxyProtocol:
+      trustedIPs: '~TRUSTED_IP_LIST~'
+    forwardedHeaders:
+      trustedIPs: '~TRUSTED_IP_LIST~'
+
+api:
+  dashboard: true
+  insecure: true
+  debug: false
+
+serversTransport:
+  insecureSkipVerify: true
+
+certificatesResolvers:
+  lets-encrypt:
+    acme:
+      email: '~EMAIL~'
+      storage: acme.json
+      certificatesDuration: 4320
+      caServer: 'https://acme-v02.api.letsencrypt.org/directory'
+      tlsChallenge: {}
+  staging:
+    acme:
+      email: '~EMAIL~'
+      storage: staging.json
+      certificatesDuration: 4320
+      caServer: 'https://acme-staging-v02.api.letsencrypt.org/directory'
+      tlsChallenge: {}
+
+log:
+  filePath: /traefik.log
+  level: INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: common  # common, json, logfmt
+
+accessLog:
+  filePath: /access.log
+  bufferingSize: 128
+  format: common  # common, json, logfmt
+
+################################################################
+# Enable Healthcheck
+################################################################
+ping: {}
+
+#=======================================================
+#  Connectors
+#=======================================================
+
+
+#=======================================================
+#  Information
+#=======================================================
+
+
+#=======================================================
+#  Providers
+#=======================================================
+
+providers:
+  docker:
+    watch: true
+    network: web
+    exposedByDefault: false
+    swarmMode: false
+  file:
+    filename: dynamic.yml
+    watch: true
+

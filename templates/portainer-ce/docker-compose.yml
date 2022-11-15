@@ -1,0 +1,52 @@
+#!/bin/bash
+#
+# Created by Quesenbery, D
+# ToolbaxAid.com
+# Date  10/20/2022
+#
+# docker-compose.yml
+#
+
+version: '3.8'
+services:
+
+#==================================================================
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: ${TRAEFIK}
+    hostname:       ${SITE}
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./portainer-data:/data
+    ports:
+      - 9000:9000
+
+    labels:
+       - traefik.enable=true
+       - traefik.port=9000
+       - traefik.http.routers.${TRAEFIK}.service=${TRAEFIK}
+       - traefik.http.routers.${TRAEFIK}.rule=Host(`${SITE}`)
+       - traefik.http.routers.${TRAEFIK}.tls=true
+       - traefik.http.routers.${TRAEFIK}.tls.certresolver=${CERT_RESOLVER}
+       - traefik.http.routers.${TRAEFIK}.entrypoints=websecure
+
+       - traefik.http.services.${TRAEFIK}.loadbalancer.server.url=http://${SITE}
+       - traefik.http.services.${TRAEFIK}.loadbalancer.server.port=9000
+       - traefik.http.services.${TRAEFIK}.loadbalancer.passHostHeader=true
+
+       - traefik.docker.network=traefik4wan
+
+    networks:
+      traefik4wan: {}
+
+#==================================================================
+networks:
+    traefik4wan:
+      name: "${TRAEFIK_4_WAN}"
+      external: true
+
