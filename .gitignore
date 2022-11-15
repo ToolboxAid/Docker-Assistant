@@ -1,6 +1,10 @@
 # Ignore file
-*.env
+.common.env
+.docker.port.number
+.env
+.git
 *.log
+scripts/english3.txt
 /dev/
 /lan/
 /wan/
