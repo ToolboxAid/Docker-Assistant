@@ -1,7 +1,6 @@
-# docker_assistant
+# Docker Assistant
 
-Everything here: all scripts, containers, data, etc. are use at your own risk.
-No liability what so ever belongs to me.
+
 
 Requirements:
 - These script are written with bash, so a linux kernel is required.
@@ -21,6 +20,13 @@ Requirements:
 
 What these scripts will not do for you:
 - How to debug any issues you may have
+
+`#ff0000`
+All scripts, containers, data, etc. are use at your own risk.
+No liability what so ever belongs to me.
+Use at your own risk.
+`#000000`
+The background color should be `#ffffff` for light mode and `#0d1117` for dark mode.
 
 Templates are deployed in three locations off the ./docker_assistant/ directory:
 - dev - this is where we try things out, or setup a degug environment. (hard code new things to dev regardless of ENV)
