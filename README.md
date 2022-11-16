@@ -130,9 +130,11 @@ You may need to lookup the CIDR of >  xx.xx.xx.xx/16 for most firewal rules
 
 After updating 'ddclient.conf', Execute:
 ```
-- 'sudo ./up.sh' to start DDclient
-- 'sudo ./log.tail.sh' and see if it is updating or failing.
+- sudo ./up.sh
+- sudo ./log.tail.sh
 ```
+Review the logs to see if it is updating or failing.
+
 Once updated, it could take upto 24 hours or more to work, with Google DNS, my works within 15 min
 If no errors, you should now be able to:
 ```
