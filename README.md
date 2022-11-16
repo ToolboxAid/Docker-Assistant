@@ -30,20 +30,22 @@
 
 ### Templates are deployed in two of the three directories off the ./docker_assistant/:
 ```
-/voloume1/docker_assistant/
-  ├── dev   not a deploy directory, this is where we try things out, or setup a degug environment.
-  ├── lan   1 local area network, no intarnet access, only intranet (local lan) via a whitelist (wan access will receive a not authorized)
-  └── wan   2 wide area network, accessible from internet and intranet
+/voloume1
+  └── docker_assistant
+       ├── dev   not a deploy directory, this is where we try things out, or setup a degug environment.
+       ├── lan   1 local area network, no intarnet access, only intranet (local lan) via a whitelist (wan access will receive a not authorized)
+       └── wan   2 wide area network, accessible from internet and intranet
 ```
 
 
 
 ### Your clone directory will contain ( I used:'./docker_assistant/')
 ```
-/voloume1/docker_assistant/
-  ├── custom_data - misc files used in a container setup
-  ├── scripts     - re-usable code base (bash scripts)
-  └── templates   - deployment container and scripts
+/voloume1
+  └── docker_assistant
+       ├── custom_data - misc files used in a container setup
+       ├── scripts     - re-usable code base (bash scripts)
+       └── templates   - deployment container and scripts
 ```
 
 
@@ -55,17 +57,18 @@ Naming standard should be {PACKAGE_NAME}-{VERSION}
 Currently, these do not have any parameters, so no -h option
 If the deployment package does not support something, a message will be diplayed when executed
 ```
-/voloume1/docker_assistant/
-  └── {lan or wan}
-       └── {container_name}
-           ├── attach.sh
-           ├── down.sh
-           ├── env.sh
-           ├── log.error.sh
-           ├── log.standard.sh
-           ├── log.tail.sh
-           ├── restart.sh
-           └──  up.sh
+/voloume1
+  └── docker_assistant
+       └── {lan or wan}
+            └── {container_name}
+                ├── attach.sh
+                ├── down.sh
+                ├── env.sh
+                ├── log.error.sh
+                ├── log.standard.sh
+                ├── log.tail.sh
+                ├── restart.sh
+                └──  up.sh
 ```
 
 You can execute these by doing:
@@ -85,15 +88,16 @@ i.e. sudo ./{script}.sh
 - Execute script 'user@server:/volume1/docker_assistant/ $ sudo ./env.setup.sh'
   - Please review/update your generated files for correctness
 ```
-/voloume1/docker_assistant/
-  ├── custom_data
-  ├── dev
-  ├── lan
-  ├── scriptsemplate
-  ├── template 
-  │   └── .common.env
-  ├── wan
-  └── setup.env.sh
+/voloume1
+  └── docker_assistant
+       ├── custom_data
+       ├── dev
+       ├── lan
+       ├── scriptsemplate
+       ├── template 
+       │   └── .common.env
+       ├── wan
+       └── setup.env.sh
 ```
 
 ### 3 DD-Client setup
