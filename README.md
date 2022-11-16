@@ -129,37 +129,51 @@ You may need to lookup the CIDR of >  xx.xx.xx.xx/16 for most firewal rules
    - you can use something like: https://www.dan.me.uk/ipsubnets
 
 After updating 'ddclient.conf', Execute:
+```
 - 'sudo ./up.sh' to start DDclient
 - 'sudo ./log.tail.sh' and see if it is updating or failing.
-
-- once updated, it could take upto 24 hours or more to work, with Google DNS, my works within 15 min
-If no errors, you should now be able to ping your DOMAIN_NAME and get your external IP
+```
+Once updated, it could take upto 24 hours or more to work, with Google DNS, my works within 15 min
+If no errors, you should now be able to:
+```
+ping traefik.lan.{YOUR_DOMAIN_NAME}  (depending if you allow replies to pings)
+nslookup traefik.lan.{YOUR_DOMAIN_NAME}
+```
 (assuming the DNS gods are with you, if not, upto 24 hours)
 
 
 ### 5  Point your router to you MAC-VLAN IP from step 2 to the MAC-VLAN ip address (Ports 80 and 443)
-- as Traefik will be running on a MAC-VLAN, you need to forward port 80 to 80 and 443 to 443
-- I know, no way to test this until Traefik is running.
+- as Traefik will be running on a MAC-VLAN, you need to forward ports 80 to 80 and 443 to 443 to your Traefik IP address
+- I know, no way to test this until Traefik is running in step 6.
 
 
 ### 6 Traefik will proxy all of it's HTTPS network requests to your services
-Only the Traefik container has direct access to the internet.  All other containers flow through Traefick having the docker firewall rules in place to assist with security issues.
+Only the Traefik container has direct access to the internet.  All other containers flow through Traefik using the docker firewall rules to assist with security issues.
 
-    use: 'sudo ./traefik-v2.8.sh' to setup the container (as of writting this, the version is 'v2.8')
-
-- at this point, you sould be able to browse to traefik.wan.{YOUR_DOMAIN_NAME}
+To setup the container (as of writting this, the version is 'v2.8') use:
+```
+sudo ./traefik-v2.8.sh
+cd ./wan/traefik-v2.8/
+```
 
 If you are using a synology NAS, you can route it through Traefik
 - uncomment sysnology (service and router) section in /volume1/docker_assistant/templates/traefik-v2.8/dynamic.yml
-- in service update {synology_nas_ip}:{port}
-- in router update {YOUR_DOMAIN_NAME}
-- restart Traefik
-- if you enabled redirect http to https on your nas.
+  - in service update {synology_nas_ip}:{no_secure_port}
+  - in router update {YOUR_DOMAIN_NAME}
+- if you enabled redirect http to https on your Synology NAS.
   - In control panel, under DSM
     - disable Automatically redirect HTTP connection to HTTPS
     - disable HSTS forect brousers to use secured connection
+- You can used this as a template to redirect request to non docker continers
 
-You can used this as a template to redirect request to non docker continers
+Let's start it up:
+```
+sudo ./up.sh
+sudo ./log.tail.sh
+```
+
+At this point, you sould be able to browse to traefik.wan.{YOUR_DOMAIN_NAME}
+
 
 ### 7 Test your setup single deployable sites.
 Setup whoami - simple test site
