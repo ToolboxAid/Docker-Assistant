@@ -45,14 +45,19 @@ Naming standard should be {PACKAGE_NAME}-{VERSION}
 ### Every template will contain the below set of scripts (no description as they are self explanatory)
 Currently, these do not have any parameters, so no -h option
 If the deployment package does not support something, a message will be diplayed when executed
-- attach.sh
-- down.sh
-- env.sh
-- log.error.sh
-- log.standard.sh
-- log.tail.sh
-- restart.sh
-- up.sh
+```
+/voloume1/docker_assistant/
+  └── {lan or wan}
+       └── {container_name}
+           ├── attach.sh
+           ├── down.sh
+           ├── env.sh
+           ├── log.error.sh
+           ├── log.standard.sh
+           ├── log.tail.sh
+           ├── restart.sh
+           └──  up.sh
+```
 
 You can execute these by doing:
 i.e. sudo ./{script}.sh
@@ -70,6 +75,17 @@ i.e. sudo ./{script}.sh
 ### 2 Setup Docker Assistant environment setup
 - Execute script 'user@server:/volume1/docker_assistant/ $ sudo ./env.setup.sh'
   - Please review/update your generated files for correctness
+```
+/voloume1/docker_assistant/
+  ├── custom_data
+  ├── dev
+  ├── lan
+  ├── scriptsemplate
+  ├── template 
+  │   └── .common.env
+  ├── wan
+  └── setup.env.sh
+```
 
 ### 3 DD-Client setup
 - use 'cd ./template' and 'ls -la' to see the templated directory
@@ -97,7 +113,7 @@ traefik.wan.{YOUR_DOMAIN_NAME}
 ```
 
 If you have a firewall in place, you will need to enter a rule for outbound traffic.
-The ddclient web subnet will be display for you
+The ddclient subnet will be display for you
 You may need to lookup the CIDR of >  xx.xx.xx.xx/16 for most firewal rules
                                                  /16 subnet is 255.255.0.0
    - you can use something like: https://www.dan.me.uk/ipsubnets
@@ -116,30 +132,50 @@ Only the Traefik container has direct access to the internet.  All other contain
 
 - at this point, you sould be able to browse to traefik.wan.{YOUR_DOMAIN_NAME}
 
-### 7
+
+### 7 Test your setup single deployable sites.
+- Setup whoami - simple test site
+
+
+### 8 Now that you see what to do, you can diploy the other containers:
 - From directory './template' use the {script_name}.setup.sh to create new continers
 - use 'cd ./template' and 'ls -la' to see the templated directory
 - From directory './template' use the {script_name}.setup.sh to create new continers
 - Point your router to you MAC-VLAN IP (Ports 80 and 443) to the MAC-VLAN ip address
 
-
-### 8 Test your setup
-- Run whoami - test your first site
-- Run wordpress - your first site to manage
-- run phpmyadmin - abaility to get to your database when needed.
-
-
-# not a setup script to create .docker_zip.env
-) run a backup of your work './docker_assistant/scripts/docker_zip_backup.sh'
-
-
-# Notes
-More information at: [ToolboxAid.com](https://toolboxaid.com/).
-
-- external: false     #### prevents talking to other containers (creates new network for exe)
-- external: true      #### allows   talking to other containers (used defined network in docker-compose)
+### NOTE: if the script require a parameter, you can deploy multiple instances of it
 
 After each deployment where you see a network created (remember to do this):
 - You will need to change directory to the deployment folder (it will be displayed to you)
 - Review/edit the '.env' file generated for correctness
 - Execute: user@server:/volume1/docker_assistant/(wan|lan)/packege/ $ sudo ./up.sh to start the container
+
+
+### 9 Deploy a single instance with predefined URLs.
+- Setup phpmyadmin - abaility to get to your database when needed.
+- Setup portainer - easy way to see details about a container
+
+
+### 10 Deploy multiplue instances of a container with different URLs
+- Run wordpress - your first site to manage with a DB
+
+
+### 11 backing up sites
+Update the BACKUP_PATH in './docker_assistant/scripts/.docker.zip.env'
+
+docker_zip_backup.sh requires one (1) parameter:
+ base - backup only custom_data, scripts & templates
+ site - backup only wan, lan, dev directories
+ full - backup site & base
+
+Run a backup of your work './docker_assistant/scripts/docker_zip_backup.sh {parameter}'
+To restore a site, just drag the folder to the correct location and start it.
+
+
+# Notes
+More projects at: [ToolboxAid.com](https://toolboxaid.com/).
+
+Network external access meaning
+- external: false     #### prevents talking to other containers (creates new network for exe)
+- external: true      #### allows   talking to other containers (used defined network in docker-compose)
+
