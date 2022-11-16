@@ -186,8 +186,11 @@ After each deployment where you see a network created (remember to do this):
 
 
 ### 10 Deploy multiplue instances of a container with different URLs
-- Run wordpress - your first site to manage with a DB
-
+Run wordpress - your first site to manage with a DB
+Additional reading: 
+- https://wordpress.org/support/article/hardening-wordpress/#file-permissions
+- https://plugins.traefik.io/plugins/62947353108ecc83915d778d/simple-cache
+- https://plugins.traefik.io/plugins/628c9eadffc0cd18356a9799/docker-compose.local.yml
 
 ### 11 backing up sites
 Update the BACKUP_PATH in './docker_assistant/scripts/.docker.zip.env'
