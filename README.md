@@ -28,17 +28,6 @@
 
 **You CANNOT move scripts between directories (if you do, learn to debug).**
 
-### Templates are deployed in two of the three directories off the ./docker_assistant/:
-```
-/voloume1
-  └── docker_assistant
-       ├── dev   not a deploy directory, this is where we try things out, or setup a degug environment.
-       ├── lan   1 local area network, no intarnet access, only intranet (local lan) via a whitelist (wan access will receive a not authorized)
-       └── wan   2 wide area network, accessible from internet and intranet
-```
-
-
-
 ### Your clone directory will contain ( I used:'./docker_assistant/')
 ```
 /voloume1
@@ -46,6 +35,17 @@
        ├── custom_data - misc files used in a container setup
        ├── scripts     - re-usable code base (bash scripts)
        └── templates   - deployment container and scripts
+```
+
+
+
+### Templates are deployed in two of the three directories off the ./docker_assistant/:
+```
+/voloume1
+  └── docker_assistant
+       ├── dev   not a deploy directory, this is where we try things out, or setup a degug environment.
+       ├── lan   1 local area network, no intarnet access, only intranet (local lan) via a whitelist (wan access will receive a not authorized)
+       └── wan   2 wide area network, accessible from internet and intranet
 ```
 
 
@@ -72,8 +72,10 @@ If the deployment package does not support something, a message will be diplayed
 ```
 
 You can execute these by doing:
-i.e. sudo ./{script}.sh
-     sudo ./up.sh
+```
+sudo ./{script}.sh
+sudo ./up.sh
+```
 
 ## Follow these required steps to get sites/apps working...
 
@@ -145,9 +147,23 @@ Only the Traefik container has direct access to the internet.  All other contain
 
 - at this point, you sould be able to browse to traefik.wan.{YOUR_DOMAIN_NAME}
 
+If you are using a synology NAS, you can route it through Traefik
+- uncomment sysnology (service and router) section in /volume1/docker_assistant/templates/traefik-v2.8/dynamic.yml
+- in service update {synology_nas_ip}:{port}
+- in router update {YOUR_DOMAIN_NAME}
+- restart Traefik
+- if you enabled redirect http to https on your nas.
+  - In control panel, under DSM
+    - disable Automatically redirect HTTP connection to HTTPS
+    - disable HSTS forect brousers to use secured connection
+
+You can used this as a template to redirect request to non docker continers
 
 ### 7 Test your setup single deployable sites.
-- Setup whoami - simple test site
+Setup whoami - simple test site
+  - execute script ./templates/whoami.sh
+  - navagate to ./lan/whoami/ and execute ./up.sh
+  - launch your browser pointed to whoami.lan.{YOUR_DOMAIN_NAME}
 
 
 ### 8 Now that you see what to do, you can diploy the other containers:

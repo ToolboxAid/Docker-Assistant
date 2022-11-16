@@ -3,6 +3,7 @@
 .docker.port.number
 .env
 .git
+*.swp
 *.log
 scripts/english3.txt
 /dev/

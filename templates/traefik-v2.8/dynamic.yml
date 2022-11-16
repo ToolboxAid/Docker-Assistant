@@ -45,6 +45,7 @@ http:
           X-Forwarded-Proto: https
         sslProxyHeaders:
           X-Forwarded-Proto: https
+        sslRedirect: true
 
     TBA-whitelist:
       ipWhiteList:
@@ -69,21 +70,57 @@ http:
       contentType:
         autoDetect: false
 
+
+# -----------------------------------------------------------------
+#  services:
+#    # - - - - - - - - - - - - - - - - -
+#    synology:
+#      loadBalancer:
+#        servers:
+#          - url: "http://{synology_nas_ip}:{port}"
+#        passHostHeader: true
+#    # remember to uncomment the router as well.
+#    # - - - - - - - - - - - - - - - - -
+#
 # ------------------------------------------------------------------
 
   routers:
+    # - - - - - - - - - - - - - - - - -
     api:
       rule: Host(`~SITE~`)
+
       entrypoints:
         - websecure
+
       middlewares:
         - TBA-basicAuth
         - TBA-headers
         - TBA-whitelist
         - TBA-compress
-        - TBA-ratelimit
+#        - TBA-ratelimit
 #        - test-autodetect
+
       service: api@internal
+
       tls:
         certResolver: ~CERT_RESOLVER~ 
+
+    # - - - - - - - - - - - - - - - - -
+#    synology:
+#      rule: "Host(`synology.lan.{YOUR_DOMAIN_NAME}`)"
+#
+#      entrypoints:
+#        - websecure
+#
+#      middlewares:
+#        - TBA-headers
+#        - TBA-whitelist
+#        - TBA-compress
+#
+#      service: synology
+#
+#      tls:
+#        certResolver: lets-encrypt
+#    # remember to uncomment the service as well
+    # - - - - - - - - - - - - - - - - -
 
