@@ -171,11 +171,9 @@ docker_zip_backup.sh requires one (1) parameter:
 Run a backup of your work './docker_assistant/scripts/docker_zip_backup.sh {parameter}'
 To restore a site, just drag the folder to the correct location and start it.
 
-
-# Notes
-More projects at: [ToolboxAid.com](https://toolboxaid.com/).
-
-Network external access meaning
-- external: false     #### prevents talking to other containers (creates new network for exe)
-- external: true      #### allows   talking to other containers (used defined network in docker-compose)
+# Notes:
+### More projects at: [ToolboxAid.com](https://toolboxaid.com/).
+### Network external access meaning:
+   - external: false # prevents talking to other containers (creates new network for exe)
+   - external: true  # allows   talking to other containers (used defined network in docker-compose)
 
