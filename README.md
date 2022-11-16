@@ -8,9 +8,9 @@
 - Knowledge of how to install Docker 
   - Linux reference -> https://docs.docker.com/engine/install/ubuntu/
   - Synology reference -> install package Docker: https://www.synology.com/en-global/dsm/packages/Docker
-- Teach you how to install git -
+- Knowledge of how to install git -
   - Linux refererenct > https://gist.github.com/derhuerst/1b15ff4652a867391f03
-  - I'm using Synology DSM 7.0 ->  so I install 'Git Server' Package Center
+  - I'm using Synology DSM 7.0 ->  so I installed 'Git Server' Package Center
     - https://gist.github.com/walkerjeffd/374750c366605cd5123d
     - http://blog.osdev.org/git/2014/02/13/using-git-on-a-synology-nas.html
 - Knowledge of an editor to maintenace/edit your .env files.
@@ -29,14 +29,23 @@
 **You CANNOT move scripts between directories (if you do, learn to debug).**
 
 ### Templates are deployed in two of the three directories off the ./docker_assistant/:
-- lan 1 local area network, no intarnet access, only intranet (local lan) via a whitelist (wan access will receive a not authorized)
-- wan 2 wide area network, accessible from internet and intranet
-- dev X this is where we try things out, or setup a degug environment. (hard code new things to dev regardless of ENV)
+```
+/voloume1/docker_assistant/
+  ├── dev   not a deploy directory, this is where we try things out, or setup a degug environment.
+  ├── lan   1 local area network, no intarnet access, only intranet (local lan) via a whitelist (wan access will receive a not authorized)
+  └── wan   2 wide area network, accessible from internet and intranet
+```
+
+
 
 ### Your clone directory will contain ( I used:'./docker_assistant/')
-- custom_data - misc files used in a container setup
-- scripts     - re-usable code base (bash scripts)
-- templates   - deployment container and scripts './docker_assistant/templates/'
+```
+/voloume1/docker_assistant/
+  ├── custom_data - misc files used in a container setup
+  ├── scripts     - re-usable code base (bash scripts)
+  └── templates   - deployment container and scripts
+```
+
 
 ### Each template will have a dedicated folder and deployment script
 Naming standard should be {PACKAGE_NAME}-{VERSION}
