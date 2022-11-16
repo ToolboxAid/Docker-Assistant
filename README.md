@@ -1,7 +1,5 @@
 # Docker Assistant
 
-Primary site [ToolboxAid.com](https://toolboxaid.com/).
-
 ## Requirements:
 - These script are written with bash, so a linux kernel is required.
 - You will need root access to execute these scripts
@@ -136,6 +134,8 @@ Only the Traefik container has direct access to the internet.  All other contain
 
 
 # Notes
+More information at: [ToolboxAid.com](https://toolboxaid.com/).
+
 - external: false     #### prevents talking to other containers (creates new network for exe)
 - external: true      #### allows   talking to other containers (used defined network in docker-compose)
 
