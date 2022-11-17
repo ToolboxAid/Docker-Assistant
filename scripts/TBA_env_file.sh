@@ -151,7 +151,7 @@ create_zip(){
 	
 	cat >>${ENV_PATH} <<EOL
 # this is the path where you cloned to
-BACKUP_PATH=./
+BACKUP_PATH=~/
 #ACKUP_PATH=/volume1/backups/q-bytes.world
 
 FULL_BACKUP_NAME=docker_FULL.zip

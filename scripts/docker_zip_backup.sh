@@ -81,31 +81,43 @@ else
     usage
 fi
 
+echo "-----------------------------------------"
 echo $BACKUP_NAME
 echo $INCLUDE
+echo "-----------------------------------------"
 
 SCRIPTDIR=$PWD
-echo $SCRIPTDIR
+#echo $SCRIPTDIR
 
-cd ../..
+cd ..
+DA_PATH=$PWD
+#echo "DA_PATH: $DA_PATH"
 
-echo $SCRIPTDIR/$INCLUDE
-#cat $SCRIPTDIR/$INCLUDE
+DA_PATH=./$(echo "${DA_PATH##/*/}")
+#echo "DA_PATH: $DA_PATH"
 
-zip -r $BACKUP_PATH/$BACKUP_NAME ./docker/ -i@$SCRIPTDIR/$INCLUDE
-#zip -r $BACKUP_NAME ./docker/ -i@$SCRIPTDIR/$INCLUDE
+cd ..
+#echo "PWD: $PWD"
 
-#cp ./$BACKUP_NAME $BACKUP_PATH/
+TIME_STAMP=_$(date '+%Y-%m-%d_%H-%M-%S')
+#echo "Time Stamp: $TIME_STAMP"
+
 echo "-----------------------------------------"
-echo $BACKUP_PATH
-ls -la $BACKUP_PATH
-#echo "-----------------------------------------"
-#echo $PWD
-#ls -la ./ | grep zip
+echo $SCRIPTDIR/$INCLUDE
+cat $SCRIPTDIR/$INCLUDE
+echo "-----------------------------------------"
+
+TRIMMED=$(echo "$BACKUP_PATH" | sed 's:/*$::')
+BACKUP_PATH=$TRIMMED/$BACKUP_NAME$TIME_STAMP.zip
+
+#echo "zip -r $BACKUP_PATH $DA_PATH/ -i@$SCRIPTDIR/$INCLUDE"
+zip -r $BACKUP_PATH  $DA_PATH -i@$SCRIPTDIR/$INCLUDE
+
 echo "-----------------------------------------"
 cd $SCRIPTDIR
 
-echo "backup to : $BACKUP_PATH/$BACKUP_NAME"
+echo -e "${Green}Backup complete...to : $BACKUP_PATH ${Color_Off}"
+ls -la $BACKUP_PATH
+echo "-----------------------------------------"
 
-echo -e "${Green}Backup complete...${Color_Off}"
 

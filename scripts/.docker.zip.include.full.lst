@@ -1,6 +1,6 @@
-docker/custom_data/*
-docker/scripts/*
-docker/templates/*
-docker/dev/*
-docker/lan/*
-docker/wan/*
+docker_assistant/custom_data/*
+docker_assistant/scripts/*
+docker_assistant/templates/*
+docker_assistant/dev/*
+docker_assistant/lan/*
+docker_assistant/wan/*
