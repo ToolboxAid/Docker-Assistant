@@ -20,7 +20,7 @@ services:
      image: mikesir87/cats:1.0
 
      container_name: ${TRAEFIK}
-     hostname:       ${TRAEFIK}
+     hostname:       ${SITE}
 
      ports:
        - "5000:5000"
@@ -30,22 +30,37 @@ services:
        - "traefik.enable=true"
        - "traefik.docker.network=t${TRAEFIK_4_LAN}"
 
-     # Routers
+       # Routes
 
+       - traefik.port=5000
        - traefik.http.routers.${TRAEFIK}.service=${TRAEFIK}
        - traefik.http.routers.${TRAEFIK}.rule=Host(`${SITE}`)
        - traefik.http.routers.${TRAEFIK}.tls=true
        - traefik.http.routers.${TRAEFIK}.tls.certresolver=${CERT_RESOLVER}
+
        - traefik.http.routers.${TRAEFIK}.entrypoints=websecure
+       - traefik.http.routers.${TRAEFIK}.middlewares=TBA-headers@file,${TRAEFIK}-whitelist@docker
+                          # simpleAuth@file
 
-     # Middle Wares
+      # Middle Wares
 
+       - traefik.http.middlewares.${TRAEFIK}-whitelist.ipwhitelist.ipstrategy.depth=0
+       - traefik.http.middlewares.${TRAEFIK}-whitelist.ipwhitelist.sourcerange=${IP_WHITE_LIST}
 
-     # Services
+      # Services
 
        - traefik.http.services.${TRAEFIK}.loadbalancer.server.url=http://${SITE}
        - traefik.http.services.${TRAEFIK}.loadbalancer.server.port=5000
        - traefik.http.services.${TRAEFIK}.loadbalancer.passHostHeader=true
+
+       # Entry points
+
+       - traefik.entryPoints.${TRAEFIK}.proxyProtocol.insecure=false
+       - traefik.entryPoints.${TRAEFIK}.proxyProtocol.trustedIPs=${TRUSTED_IP_LIST}
+
+       - traefik.entryPoints.${TRAEFIK}.forwardedHeaders.insecure=false
+       - traefik.entryPoints.${TRAEFIK}.forwardedHeaders.trustedIPs=${TRUSTED_IP_LIST}
+
 
      restart: $RESTART
 

@@ -168,6 +168,34 @@ EOL
 
 }
 
+
+#-------------------------------------------------------------------
+create_catapp(){
+    echo -e "${IBlue}***** Function:  ${FUNCNAME} *****${Color_Off}"
+    ENV_PATH=$1
+    write_header $ENV_PATH
+
+    cat >>${ENV_PATH} <<EOL
+
+TRAEFIK=~TRAEFIK~
+SITE=~SITE~
+RESTART=unless-stopped
+
+CERT_RESOLVER=lets-encrypt
+
+TIME_ZONE=~TIME_ZONE~
+
+IP_WHITE_LIST=~IP_WHITE_LIST~
+TRUSTED_IP_LIST=~TRUSTED_IP_LIST~
+
+TRAEFIK_4_LAN=~TRAEFIK_4_LAN~
+
+TRAEFIK_4_WAN=~TRAEFIK_4_WAN~
+
+EOL
+}
+
+
 create_ddclient(){
 	ENV_PATH=$1
 	OVER_RIDE=$2

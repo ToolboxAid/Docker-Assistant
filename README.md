@@ -86,7 +86,7 @@ sudo ./up.sh
 - 'cd' to the directory you use to deploy this software
   - user@server:/volume1/ $ cd ./docker_assistant/
 
-### 2 Setup Docker Assistant environment setup
+### 2 - Setup Docker Assistant environment setup
 - Execute script 'user@server:/volume1/docker_assistant/ $ sudo ./env.setup.sh'
   - Please review/update your generated files for correctness
 ```
@@ -102,12 +102,12 @@ sudo ./up.sh
        └── setup.env.sh
 ```
 
-### 3 DD-Client setup
+### 3 - DD-Client setup
 - use 'cd ./template' and 'ls -la' to see the templated directory
 - Setup DDclient
   - Execute script 'sudo ./ddclient-v3.9.1-ls100.sh' (as of writting this, the version is 'v3.9.1-ls100')
 
-### 4 Create a dynamic A record for Traefik and DD-Client
+### 4 - Create a dynamic A record for Traefik and DD-Client
 Logon to your DNS host and create a Dynamic record forwarding to 'traefik.wan.{YOUR_DOMAIN_NAME}'
   - use command: 'cd /volume1/docker_assistant/lan/ddclient-v3.9.1-ls100/config/'
   - use: 'ls -la' to see directory listing
@@ -143,13 +143,17 @@ nslookup traefik.lan.{YOUR_DOMAIN_NAME}
 ```
 (assuming the DNS gods are with you, if not, upto 24 hours)
 
+Additional reading:
+- https://plugins.traefik.io/plugins/62947353108ecc83915d778d/simple-cache
+- https://plugins.traefik.io/plugins/628c9eadffc0cd18356a9799/docker-compose.local.yml
 
-### 5  Point your router to you MAC-VLAN IP from step 2 to the MAC-VLAN ip address (Ports 80 and 443)
+
+### 5 - Point your router to you MAC-VLAN IP from step 2 to the MAC-VLAN ip address (Ports 80 and 443)
 - as Traefik will be running on a MAC-VLAN, you need to forward ports 80 to 80 and 443 to 443 to your Traefik IP address
 - I know, no way to test this until Traefik is running in step 6.
 
 
-### 6 Traefik will proxy all of it's HTTPS network requests to your services
+### 6 - Traefik will proxy all of it's HTTPS network requests to your services
 Only the Traefik container has direct access to the internet.  All other containers flow through Traefik using the docker firewall rules to assist with security issues.
 
 To setup the container (as of writting this, the version is 'v2.8') use:
@@ -177,20 +181,23 @@ sudo ./log.tail.sh
 At this point, you sould be able to browse to traefik.wan.{YOUR_DOMAIN_NAME}
 
 
-### 7 Test your setup single deployable sites.
+### 7 - Test your setup single deployable sites.
 Setup whoami - simple test site
-  - execute script ./templates/whoami.sh
-  - navagate to ./lan/whoami/ and execute ./up.sh
-  - launch your browser pointed to whoami.lan.{YOUR_DOMAIN_NAME}
+```
+cd ./templates
+./whoami.sh
+./lan/whoami/ and execute ./up.sh
+```
+Launch your browser pointed to whoami.lan.{YOUR_DOMAIN_NAME}
 
 
-### 8 Now that you see what to do, you can diploy the other containers:
+### 8 - Now that you see what to do, you can diploy the other containers:
 - From directory './template' use the {script_name}.setup.sh to create new continers
 - use 'cd ./template' and 'ls -la' to see the templated directory
 - From directory './template' use the {script_name}.setup.sh to create new continers
 - Point your router to you MAC-VLAN IP (Ports 80 and 443) to the MAC-VLAN ip address
 
-### NOTE: if the script require a parameter, you can deploy multiple instances of it
+#### NOTE: if the script require the parameter {SITE}, you can deploy multiple instances of it
 
 After each deployment where you see a network created (remember to do this):
 - You will need to change directory to the deployment folder (it will be displayed to you)
@@ -198,19 +205,17 @@ After each deployment where you see a network created (remember to do this):
 - Execute: user@server:/volume1/docker_assistant/(wan|lan)/packege/ $ sudo ./up.sh to start the container
 
 
-### 9 Deploy a single instance with predefined URLs.
+### 9 - Deploy a single instance with predefined URLs.
 - Setup phpmyadmin - abaility to get to your database when needed.
 - Setup portainer - easy way to see details about a container
 
 
-### 10 Deploy multiplue instances of a container with different URLs
+### 10 - Deploy multiplue instances of a container with different URLs
 Run wordpress - your first site to manage with a DB
 Additional reading: 
 - https://wordpress.org/support/article/hardening-wordpress/#file-permissions
-- https://plugins.traefik.io/plugins/62947353108ecc83915d778d/simple-cache
-- https://plugins.traefik.io/plugins/628c9eadffc0cd18356a9799/docker-compose.local.yml
 
-### 11 backing up sites
+### 11 - backing up sites
 Update the BACKUP_PATH in './docker_assistant/scripts/.docker.zip.env'
 
 docker_zip_backup.sh requires one (1) parameter:
