@@ -83,7 +83,7 @@ sudo ./up.sh
 
 # Notes:
 ### More projects at: [ToolboxAid.com](https://toolboxaid.com/).
-### Network external access meaning:
+### Docker external network access meaning:
    - external: false # prevents talking to other containers (creates new network for exe)
    - external: true  # allows   talking to other containers (used defined network in docker-compose)
 
