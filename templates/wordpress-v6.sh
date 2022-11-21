@@ -124,7 +124,7 @@ chmod 664       $DOCKER_PATH/$ENV/$SITE/mariadb/conf/*
 
 
 #rm -r           $DOCKER_PATH/$ENV/$SITE/mariadb/data/
-#mkdir           $DOCKER_PATH/$ENV/$SITE/mariadb/data/
+mkdir           $DOCKER_PATH/$ENV/$SITE/mariadb/data
 chown 1001:root $DOCKER_PATH/$ENV/$SITE/mariadb/data
 chmod 775       $DOCKER_PATH/$ENV/$SITE/mariadb/data
 
@@ -140,7 +140,7 @@ chown 1001:1001 $DOCKER_PATH/$ENV/$SITE/wordpress/conf/php.ini
 chmod 600       $DOCKER_PATH/$ENV/$SITE/wordpress/conf/php.ini
 
 #rm -r           $DOCKER_PATH/$ENV/$SITE/wordpress/data
-#mkdir           $DOCKER_PATH/$ENV/$SITE/wordpress/data
+mkdir           $DOCKER_PATH/$ENV/$SITE/wordpress/data
 chown 1:0       $DOCKER_PATH/$ENV/$SITE/wordpress/data
 chmod 775       $DOCKER_PATH/$ENV/$SITE/wordpress/data
 
