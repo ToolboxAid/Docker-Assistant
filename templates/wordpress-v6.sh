@@ -122,8 +122,6 @@ chmod 775       $DOCKER_PATH/$ENV/$SITE/mariadb/conf
 chown 1001:root $DOCKER_PATH/$ENV/$SITE/mariadb/conf/*
 chmod 664       $DOCKER_PATH/$ENV/$SITE/mariadb/conf/*
 
-
-#rm -r           $DOCKER_PATH/$ENV/$SITE/mariadb/data/
 mkdir           $DOCKER_PATH/$ENV/$SITE/mariadb/data
 chown 1001:root $DOCKER_PATH/$ENV/$SITE/mariadb/data
 chmod 775       $DOCKER_PATH/$ENV/$SITE/mariadb/data
@@ -139,7 +137,6 @@ chmod 775       $DOCKER_PATH/$ENV/$SITE/wordpress/conf
 chown 1001:1001 $DOCKER_PATH/$ENV/$SITE/wordpress/conf/php.ini
 chmod 600       $DOCKER_PATH/$ENV/$SITE/wordpress/conf/php.ini
 
-#rm -r           $DOCKER_PATH/$ENV/$SITE/wordpress/data
 mkdir           $DOCKER_PATH/$ENV/$SITE/wordpress/data
 chown 1:0       $DOCKER_PATH/$ENV/$SITE/wordpress/data
 chmod 775       $DOCKER_PATH/$ENV/$SITE/wordpress/data
@@ -149,7 +146,6 @@ chmod 775       $DOCKER_PATH/$ENV/$SITE/wordpress/scripts
 chown 1001:root $DOCKER_PATH/$ENV/$SITE/wordpress/scripts/*
 chmod 664       $DOCKER_PATH/$ENV/$SITE/wordpress/scripts/alive.php
 chmod 774       $DOCKER_PATH/$ENV/$SITE/wordpress/scripts/healthcheck.php
-
 
 # update .env file
 get_router_IP
@@ -187,26 +183,25 @@ sed -i "s/~DB_PORT~/$DB_PORT/g"                  $DOCKER_PATH/$ENV/$SITE/.env
 COUNT=2
 SEPERATOR="_"
 get_random_dictionary_word_concatenated $COUNT $SEPERATOR
-echo "DB_NAME : $random_dictionary_word_concatenated"
-sed -i "s/~DB_NAME~/$random_dictionary_word_concatenated/g"                  $DOCKER_PATH/$ENV/$SITE/.env
+sed -i "s/~DB_NAME~/$random_dictionary_word_concatenated/g"  $DOCKER_PATH/$ENV/$SITE/.env
 
 
 get_random_dictionary_word_concatenated $COUNT $SEPERATOR
-sed -i "s/~DB_USER~/$random_dictionary_word_concatenated/g"                  $DOCKER_PATH/$ENV/$SITE/.env
+sed -i "s/~DB_USER~/$random_dictionary_word_concatenated/g"  $DOCKER_PATH/$ENV/$SITE/.env
 
 LEN=16
 get_random_AZaz09_plus_plus $LEN
-sed -i "s/~DB_PASSWORD~/$random/g"          $DOCKER_PATH/$ENV/$SITE/.env
+sed -i "s/~DB_PASSWORD~/$random/g"               $DOCKER_PATH/$ENV/$SITE/.env
 
 get_random_dictionary_word_concatenated $COUNT $SEPERATOR
-sed -i "s/~ROOT_USER~/$random_dictionary_word_concatenated/g"              $DOCKER_PATH/$ENV/$SITE/.env
+sed -i "s/~ROOT_USER~/$random_dictionary_word_concatenated/g" $DOCKER_PATH/$ENV/$SITE/.env
 
 get_random_AZaz09_plus_plus $LEN
-sed -i "s/~ROOT_PASSWORD~/$random/g"      $DOCKER_PATH/$ENV/$SITE/.env
+sed -i "s/~ROOT_PASSWORD~/$random/g"             $DOCKER_PATH/$ENV/$SITE/.env
 
 LEN=5
 get_random_AZaz09_plus $LEN
-sed -i "s/~TABLE_PREFIX~/${random}_/g"        $DOCKER_PATH/$ENV/$SITE/.env
+sed -i "s/~TABLE_PREFIX~/${random}_/g"           $DOCKER_PATH/$ENV/$SITE/.env
 
 tmpWhiteList=$(echo $whiteList | sed 's;/;\\/;g')
 sed -i "s/~IP_WHITE_LIST~/$tmpWhiteList/g"       $DOCKER_PATH/$ENV/$SITE/.env
@@ -218,10 +213,24 @@ sed -i "s/~TRAEFIK_4_LAN~/$TRAEFIK_4_LAN/g"      $DOCKER_PATH/$ENV/$SITE/.env
 sed -i "s/~TRAEFIK_4_WAN~/$TRAEFIK_4_WAN/g"      $DOCKER_PATH/$ENV/$SITE/.env
 sed -i "s/~LAN_2_DATABASE~/$LAN_2_DATABASE/g"    $DOCKER_PATH/$ENV/$SITE/.env
 
+# update docker-compose.ym: $ENV?
+if [ $ENV = 'wan' ]; then
+    echo "NO whitelist"
+    sed -i "s/#~WAN~//g" $DOCKER_PATH/$ENV/$SITE/docker-compose.yml
+    sed -i '/#~LAN~/d'   $DOCKER_PATH/$ENV/$SITE/docker-compose.yml
+else
+    echo "Using whitelist"
+    sed -i "s/#~LAN~//g" $DOCKER_PATH/$ENV/$SITE/docker-compose.yml
+    sed -i '/#~WAN~/d'   $DOCKER_PATH/$ENV/$SITE/docker-compose.yml
+fi
+
+sed -i "/#~/d"         $DOCKER_PATH/$ENV/$SITE/docker-compose.yml
+
 cat <<EOF
 >  '$0'
 
 Remember to update your firewall rules for ports 80 & 443: network list below
+If you see, 'docker-compose not able to connect to internet', most likely it's the firewal
 
 Network created:
     - ${SITE}-db 
@@ -232,6 +241,5 @@ File created/updated:
 
 EOF
 
-cat ../dev/qbytesworld.com/.env
 all_done $DOCKER_PATH/$ENV/$SITE
 above line does not return, so no code to execute here and blow

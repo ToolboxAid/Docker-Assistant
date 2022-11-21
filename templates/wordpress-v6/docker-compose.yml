@@ -105,11 +105,11 @@ services:
       - ALLOW_EMPTY_PASSWORD=no
 
       - PHP_EXPOSE_PHP=no              ##PHP_EXPOSE_PHP: Enables HTTP header with PHP version. No default.
-      - PHP_POST_MAX_SIZE=1024M #8M    ##PHP_POST_MAX_SIZE: Maximum size for PHP POST requests. No default.
-      - PHP_UPLOAD_MAX_FILESIZE=1024M  ##PHP_UPLOAD_MAX_FILESIZE: Maximum file size for PHP uploads. No default.
-      - PHP_MEMORY_LIMIT=1024M         ##PHP_MEMORY_LIMIT: Memory limit for PHP scripts. Default: 512M
+#      - PHP_POST_MAX_SIZE=1024M        ##PHP_POST_MAX_SIZE: Maximum size for PHP POST requests. No default.      #8
+#      - PHP_UPLOAD_MAX_FILESIZE=1024M  ##PHP_UPLOAD_MAX_FILESIZE: Maximum file size for PHP uploads. No default. 
+#      - PHP_MEMORY_LIMIT=1024M         ##PHP_MEMORY_LIMIT: Memory limit for PHP scripts. Default: 512M
 
-## https://developer.wordpress.org/apis/wp-config-php/
+#~ https://developer.wordpress.org/apis/wp-config-php/
       - WORDPRESS_EXTRA_WP_CONFIG_CONTENT=
          define('WP_CACHE', true );
 
@@ -130,17 +130,17 @@ services:
 
          define('WP_POST_REVISIONS', 3 );
 
-#         define( 'WP_CONTENT_URL',  'https://${SITE}/content' );
-#         define( 'WP_INCLUDES_URL', 'https://${SITE}/content/includes' );
-#         define( 'WP_PLUGIN_URL',   'https://${SITE}/content/plugins' );
-#         define( 'WP_UPLOADS_URL',  'https://${SITE}/content/uploads' );
-
-#         define('FS_CHMOD_DIR',  ( 0755 & ~ umask() ) );
-#         define('FS_CHMOD_FILE', ( 0644 & ~ umask() ) );
-
-#         define('WP_AUTO_UPDATE_CORE', true);
-
-#      - WORDPRESS_RESET_DATA_PERMISSIONS=yes
+#~         define( 'WP_CONTENT_URL',  'https://${SITE}/content' );
+#~         define( 'WP_INCLUDES_URL', 'https://${SITE}/content/includes' );
+#~         define( 'WP_PLUGIN_URL',   'https://${SITE}/content/plugins' );
+#~         define( 'WP_UPLOADS_URL',  'https://${SITE}/content/uploads' );
+#~
+#~         define('FS_CHMOD_DIR',  ( 0755 & ~ umask() ) );
+#~         define('FS_CHMOD_FILE', ( 0644 & ~ umask() ) );
+#~
+#~         define('WP_AUTO_UPDATE_CORE', true);
+#~
+#~      - WORDPRESS_RESET_DATA_PERMISSIONS=yes
 
     labels:
       - traefik.enable=true
@@ -154,8 +154,8 @@ services:
 
       - traefik.http.routers.${TRAEFIK}.middlewares=TBA-headers@file,TBA-redirect-htaccess@file,TBA-redirect-license@file
 
-#      - traefik.http.middlewares.${TRAEFIK}-whitelist.ipwhitelist.sourcerange=${IP_WHITE_LIST}
-#      - traefik.http.middlewares.${TRAEFIK}-whitelist.ipwhitelist.ipstrategy.depth=0  #3
+#~LAN~      - traefik.http.middlewares.${TRAEFIK}-whitelist.ipwhitelist.sourcerange=${IP_WHITE_LIST}
+#~LAN~      - traefik.http.middlewares.${TRAEFIK}-whitelist.ipwhitelist.ipstrategy.depth=0
 
       - traefik.http.middlewares.${TRAEFIK}.headers.customrequestheaders.X-Script-Name=production
       - traefik.http.middlewares.${TRAEFIK}.headers.customresponseheaders.X-Custom-Response-Header=true
@@ -185,7 +185,8 @@ services:
 
 networks:
   web:
-    name: ${TRAEFIK_4_WAN}
+#~LAN~    name: ${TRAEFIK_4_LAN}
+#~WAN~    name: ${TRAEFIK_4_WAN}
     external: true 
   db:
     name: ${SITE}-db
