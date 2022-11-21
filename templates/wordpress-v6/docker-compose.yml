@@ -154,7 +154,8 @@ services:
       - traefik.http.routers.${TRAEFIK}.tls.certresolver=lets-encrypt
       - traefik.http.routers.${TRAEFIK}.entrypoints=websecure
 
-      - traefik.http.routers.${TRAEFIK}.middlewares=TBA-headers@file,TBA-redirect-htaccess@file,TBA-redirect-license@file
+#~WAN~      - traefik.http.routers.${TRAEFIK}.middlewares=TBA-headers@file,TBA-redirect-htaccess@file,TBA-redirect-license@file
+#~LAN~      - traefik.http.routers.${TRAEFIK}.middlewares=TBA-headers@file,TBA-redirect-htaccess@file,TBA-redirect-license@file,${TRAEFIK}-whitelist@docker
 
 #~LAN~      - traefik.http.middlewares.${TRAEFIK}-whitelist.ipwhitelist.sourcerange=${IP_WHITE_LIST}
 #~LAN~      - traefik.http.middlewares.${TRAEFIK}-whitelist.ipwhitelist.ipstrategy.depth=0
