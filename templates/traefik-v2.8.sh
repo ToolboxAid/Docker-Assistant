@@ -8,6 +8,7 @@
 #
 
 INCLUDE_PATH=../scripts
+DEPLOYING=traefik-v2.8
 
 if [ -d "${INCLUDE_PATH}" ]
 then
@@ -50,8 +51,6 @@ ENV=wan
 #set path to traefik based on traefik.wan.{domain_nam}
 SITE=traefik.wan.${DOMAIN_NAME}
 echo $SITE
-
-DEPLOYING=traefik-v2.8
 
 # verify paths
 path_exists -d $DOCKER_PATH/templates/${DEPLOYING}
@@ -158,7 +157,7 @@ sed -i "s/~SITE~/$SITE/g"                   $DOCKER_PATH/$ENV/$SITE/dynamic.yml
 sed -i "s/~CERT_RESOLVER~/$CERT_RESOLVER/g" $DOCKER_PATH/$ENV/$SITE/dynamic.yml
 
 # traefik.yml
-sed -i "s/~EMAIL~/$EMAIL/g"                     $DOCKER_PATH/$ENV/$SITE/traefik.yml
+sed -i "s/~EMAIL~/$EMAIL/g"                      $DOCKER_PATH/$ENV/$SITE/traefik.yml
 sed -i "s/~TRUSTED_IP_LIST~/$tmpTrustedIpList/g" $DOCKER_PATH/$ENV/$SITE/traefik.yml
 
 # info

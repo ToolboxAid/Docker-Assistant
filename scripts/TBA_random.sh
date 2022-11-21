@@ -85,7 +85,7 @@ get_random_dictionary_word_concatenated(){
 get_random_AZaz09(){
     echo -e "${IBlue}***** Function:  ${FUNCNAME} *****${Color_Off}"
 	LEN=$1
-    random=$(head /dev/urandom | tr -dc A-Za-z0-9$%^[] | head -c $LEN)
+    random=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c $LEN)
 #	head /dev/urandom | tr -dc A-Za-z0-9$%^[] | head -c 13 ; echo ''
 }
 
@@ -93,9 +93,18 @@ get_random_AZaz09(){
 get_random_AZaz09_plus(){
     echo -e "${IBlue}***** Function:  ${FUNCNAME} *****${Color_Off}"
     LEN=$1
-	random=$( head /dev/urandom | tr -dc 'A-Za-z0-9!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' | head -c $LEN)
-#    head /dev/urandom | tr -dc 'A-Za-z0-9!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' | head -c 13  ; echo
+	random=$( head /dev/urandom | tr -dc 'A-Za-z0-9$_' | head -c $LEN)
 }
+
+# Random get_random_AZaz09_plus
+get_random_AZaz09_plus_plus(){
+    echo -e "${IBlue}***** Function:  ${FUNCNAME} *****${Color_Off}"
+    LEN=$1
+#	random=$( head /dev/urandom | tr -dc 'A-Za-z0-9~!@#$%^&*()_|-+={}[]<>,.;?:' | head -c $LEN)
+    random=$( head /dev/urandom | tr -dc 'A-Za-z0-9~!@#$%^&*()_|={}[]<>,.;?:' | head -c $LEN)
+    echo $random
+}
+
 
 # Random base64
 get_random_base64(){

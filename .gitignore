@@ -6,6 +6,7 @@
 *.swp
 *.log
 scripts/english3.txt
+templates/english3.txt
 /dev/
 /lan/
 /wan/

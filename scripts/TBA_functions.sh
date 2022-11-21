@@ -292,6 +292,8 @@ check_site_path(){
         echo "***    if this is prod, this is a problem    ***"
 		echo "* * * also will delete network '${network} * * *"
         echo -e "************************************************ ${Color_Off}"
+        echo " Site URL: ${site}"
+
         read -p "Do you wish to continue (y/n)? " var
         if [ "$var" != "y" ]; then
             echo "'y' was not entered, exiting!"
