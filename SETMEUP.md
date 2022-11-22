@@ -9,8 +9,8 @@
   - user@server:~/ $ cd /volume1
   - user@server:/volume1/ $> sudo git clone https://github.com/ToolboxAid/docker_assistant
 - Directory and file needs to be owned by you
-  - sudo chown -R {user:group} ./docker_assistant/
-  - chmod 775 -R ./docker_assistant/
+  - user@server:~/ $ sudo chown -R {user:group} ./docker_assistant/
+  - user@server:~/ $ chmod 775 -R ./docker_assistant/
 - 'cd' to the directory you use to deploy this software
   - user@server:/volume1/ $ cd ./docker_assistant/
 
