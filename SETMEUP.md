@@ -9,13 +9,11 @@
   - user@server:~/ $ cd /volume1
   - user@server:/volume1/ $> sudo git clone https://github.com/ToolboxAid/docker_assistant
 - This directory needs to be owned by you
-  - sudo {chown user:group} ./docker_assistant/
-  - chmod 775 ./docker_assistant/
+  - sudo chown -R {user:group} ./docker_assistant/
+  - chmod 775 -R ./docker_assistant/
 - 'cd' to the directory you use to deploy this software
   - user@server:/volume1/ $ cd ./docker_assistant/
-- This files needs to be owned by you
-  - sudo {chown user:group} ./*
-  - chmod 775 ./*
+
   
 ### 2 - Setup Docker Assistant environment setup
 - Execute script 'user@server:/volume1/docker_assistant/ $ sudo ./env.setup.sh'
