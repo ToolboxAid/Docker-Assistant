@@ -93,7 +93,7 @@ get_random_AZaz09(){
 get_random_AZaz09_plus(){
     echo -e "${IBlue}***** Function:  ${FUNCNAME} *****${Color_Off}"
     LEN=$1
-	random=$( head /dev/urandom | tr -dc 'A-Za-z0-9$_' | head -c $LEN)
+	random=$( head /dev/urandom | tr -dc 'A-Za-z0-9!@#%^' | head -c $LEN)
 }
 
 # Random get_random_AZaz09_plus
@@ -101,8 +101,8 @@ get_random_AZaz09_plus_plus(){
     echo -e "${IBlue}***** Function:  ${FUNCNAME} *****${Color_Off}"
     LEN=$1
 #	random=$( head /dev/urandom | tr -dc 'A-Za-z0-9~!@#$%^&*()_|-+={}[]<>,.;?:' | head -c $LEN)
-    random=$( head /dev/urandom | tr -dc 'A-Za-z0-9~!@#$%^_={}[]<>,.?:' | head -c $LEN)
-	echo "--->>>   $random   <<<---"
+    random=$( head /dev/urandom | tr -dc 'A-Za-z0-9~!@#%^_={}[],.?:' | head -c $LEN)
+#	echo "--->>>   $random   <<<---"
 }
 
 
