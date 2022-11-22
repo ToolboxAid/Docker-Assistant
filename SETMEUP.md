@@ -16,7 +16,7 @@
 - This files needs to be owned by you
   - sudo {chown user:group} ./*
   - chmod 775 ./*
-  - 
+  
 ### 2 - Setup Docker Assistant environment setup
 - Execute script 'user@server:/volume1/docker_assistant/ $ sudo ./env.setup.sh'
   - Please review/update your generated files for correctness
