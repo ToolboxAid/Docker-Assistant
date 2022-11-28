@@ -81,7 +81,7 @@ services:
       - WORDPRESS_FIRST_NAM=${WP_FIRST_NAME}
       - WORDPRESS_LAST_NAME${WP_LAST_NAME}
 
-      - WORDPRESS_DATABASE_HOST=${SITE}-db
+      - WORDPRESS_DATABASE_HOST=${TRAEFIK}-db
       - WORDPRESS_DATABASE_PORT_NUMBER=${DB_PORT}
       - WORDPRESS_DATABASE_NAME=${DB_NAME}
       - WORDPRESS_DATABASE_USER=${DB_USER}
@@ -192,7 +192,7 @@ networks:
 #~WAN~    name: ${TRAEFIK_4_WAN}
     external: true 
   db:
-    name: ${SITE}-db
+    name: ${TRAEFIK}-db
     external: true
   backend:
     name: ${LAN_2_DATABASE}

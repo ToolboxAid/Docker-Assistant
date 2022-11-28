@@ -54,6 +54,7 @@ ENV=$1
 
 #site stores $2 argument passed to script
 SITE=$2
+TRAEFIK=${SITE//./-}
 
 # validate ENV
 if [ ! $ENV ]; then
@@ -86,7 +87,7 @@ path_exists -d $DOCKER_PATH/$ENV
 verify_DNS_record $SITE
 
 #                $1 path                 $2 site $3 network
-check_site_path  $DOCKER_PATH/$ENV/$SITE $SITE   ${SITE}-db
+check_site_path  $DOCKER_PATH/$ENV/$SITE $SITE   ${TRAEFIK}-db
 echo "REPLACE : $REPLACE"
 if [ $REPLACE == True ]; then
     echo -e "${Yellow} rm  $DOCKER_PATH/templates/${TEMPLATE_FOLDER}/.env ${Color_Off}"
@@ -101,8 +102,8 @@ echo `chown "$USER_GROUP" $DOCKER_PATH/templates/${TEMPLATE_FOLDER}/.env`
 chown "$USER_GROUP"       $DOCKER_PATH/templates/${TEMPLATE_FOLDER}/.env
 chmod 660                 $DOCKER_PATH/templates/${TEMPLATE_FOLDER}/.env
 
-echo "docker network create ${SITE}-db"
-docker network create "${SITE}-db"
+echo "docker network create ${TRAEFIK}-db"
+docker network create "${TRAEFIK}-db"
 
 echo "mkdir $DOCKER_PATH/$ENV/$SITE"
 mkdir       $DOCKER_PATH/$ENV/$SITE
@@ -168,7 +169,6 @@ fi
 #----------------------------------------------------------
 sed -i "s/~SITE~/$SITE/g"                        $DOCKER_PATH/$ENV/$SITE/.env
 
-TRAEFIK=${SITE//./-}
 sed -i "s/~TRAEFIK~/$TRAEFIK/g"                  $DOCKER_PATH/$ENV/$SITE/.env
 
 tmpTimeZone=$(echo $TIME_ZONE | sed 's;/;\\/;g')
@@ -200,7 +200,7 @@ get_random_AZaz09_plus_plus $LEN
 sed -i "s/~ROOT_PASSWORD~/$random/g"             $DOCKER_PATH/$ENV/$SITE/.env
 
 LEN=5
-get_random_AZaz09_plus $LEN
+get_random_AZaz09 $LEN
 sed -i "s/~TABLE_PREFIX~/${random}_/g"           $DOCKER_PATH/$ENV/$SITE/.env
 
 tmpWhiteList=$(echo $whiteList | sed 's;/;\\/;g')
@@ -233,13 +233,21 @@ Remember to update your firewall rules for ports 80 & 443: network list below
 If you see, 'docker-compose not able to connect to internet', most likely it's the firewal
 
 Network created:
-    - ${SITE}-db 
+    - ${TRAEFIK}-db 
 Directory:
     - $DOCKER_PATH/$ENV/$SITE
 File created/updated:
     - $DOCKER_PATH/$ENV/$SITE/.env
 
+Wordpress default user and password.
 EOF
+
+cat $DOCKER_PATH/$ENV/$SITE/.env | grep 'WP_USER'
+cat $DOCKER_PATH/$ENV/$SITE/.env | grep 'WP_PSWD'
+
+echo ""
+echo "Please create your ADMIN user and delete the default"
+echo ""
 
 all_done $DOCKER_PATH/$ENV/$SITE
 above line does not return, so no code to execute here and blow

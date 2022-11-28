@@ -369,11 +369,11 @@ CERT_RESOLVER=~CERT_RESOLVER~
 TIME_ZONE=~TIME_ZONE~
 
 # Wordpress Stuff
-WP_USER=delete_this_admin
-WP_EMAIL=user@example.com
-WP_PSWD=not_so_secure
-WP_FIRST_NAME=na
-WP_LAST_NAME=na
+WP_USER=TBA_user
+WP_EMAIL=TBA@example.com
+WP_PSWD=password_not_secure
+WP_FIRST_NAME=delete_this_admin
+WP_LAST_NAME=not_so_secure
 
 # Database Stuff
 DB_PORT=3306
