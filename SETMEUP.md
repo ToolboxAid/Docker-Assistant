@@ -41,6 +41,14 @@ user@server:/volume1/ $ cd ./docker_assistant/
 - Setup DDclient
   - Execute script 'sudo ./ddclient-v3.9.1-ls100.sh' (as of writting this, the version is 'v3.9.1-ls100')
 
+#### If for some reason your cache is bad
+```
+sudo ./attach.sh
+cd /var/cache/ddclient/
+cp ddclient.cache ddclient.cache_bkup
+touch  ddclient.cache
+```
+
 ### 4 - Create a dynamic A record for Traefik and DD-Client
 Logon to your DNS host and create a Dynamic record forwarding to 'traefik.wan.{YOUR_DOMAIN_NAME}'
   - use command: 'cd /volume1/docker_assistant/lan/ddclient-v3.9.1-ls100/config/'
