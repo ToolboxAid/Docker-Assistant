@@ -41,7 +41,7 @@ user@server:/volume1/ $ cd ./docker_assistant/
 - Setup DDclient
   - Execute script 'sudo ./ddclient-v3.9.1-ls100.sh' (as of writting this, the version is 'v3.9.1-ls100')
 
-#### If for some reason your cache is bad
+#### If for some reason your cache is bad in the future when you add a new site
 ```
 sudo ./attach.sh
 cd /var/cache/ddclient/
