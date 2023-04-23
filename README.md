@@ -79,7 +79,7 @@ sudo ./{script}.sh
 sudo ./up.sh
 ```
 
-## Follow this [Set Me Up](./SETMEUP.md) page to get going
+## Follow this [Set Me Up](https://toolboxaid.com/wordpress/security/docker-assistant-set-me-up/) page to get going
 
 # Notes:
 ### More projects at: [ToolboxAid.com](https://toolboxaid.com/).

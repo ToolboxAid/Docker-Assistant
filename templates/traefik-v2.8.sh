@@ -76,6 +76,7 @@ chmod 660 $DOCKER_PATH/templates/${DEPLOYING}/.env
 
 echo "mkdir $DOCKER_PATH/$ENV/$SITE"
 mkdir $DOCKER_PATH/$ENV/$SITE
+chmod 775 $DOCKER_PATH/$ENV/$SITE
 
 echo "cp -r  $DOCKER_PATH/templates/${DEPLOYING} $DOCKER_PATH/$ENV/$SITE"
 cp -r  $DOCKER_PATH/templates/${DEPLOYING}/* $DOCKER_PATH/$ENV/$SITE
@@ -89,6 +90,7 @@ touch $DOCKER_PATH/$ENV/$SITE/data/traefik.log
 
 echo "chown -R $USER_GROUP $DOCKER_PATH/$ENV/$SITE"
 chown -R "${USER_GROUP}" $DOCKER_PATH/$ENV/$SITE
+
 chmod 660 $DOCKER_PATH/$ENV/$SITE/*
 chmod 770 $DOCKER_PATH/$ENV/$SITE/*.sh
 chmod 660 $DOCKER_PATH/$ENV/$SITE/data/*.log
