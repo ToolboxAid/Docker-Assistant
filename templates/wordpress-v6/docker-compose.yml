@@ -34,7 +34,6 @@ services:
       - MARIADB_ROOT_PASSWORD=${ROOT_PASSWORD}
       - MARIADB_USER=${DB_USER}
       - MARIADB_PASSWORD=${DB_PASSWORD}
-
     healthcheck:
       test : ['CMD','/bitnami/mariadb/scripts/healthcheck.sh']
       interval: 60s
@@ -70,7 +69,7 @@ services:
     depends_on:
       - mariadb
 
-    environment:
+        environment:
       - TZ=${TIME_ZONE}
 
       - WORDPRESS_ENABLE_REVERSE_PROXY=yes
@@ -96,7 +95,7 @@ services:
 
       - WORDPRESS_HTACCESS_OVERRIDE_NONE=yes
 
-      - WORDPRESS_ENABLE_HTACCESS_PERSISTENCE=yes
+     - WORDPRESS_ENABLE_HTACCESS_PERSISTENCE=no   #yes
       # yes -> /opt/bitnami/wordpress/wordpress-htaccess.conf
       # no --> /opt/bitnami/wordpress/.htaccess
 
@@ -106,7 +105,7 @@ services:
 
       - PHP_EXPOSE_PHP=no              ##PHP_EXPOSE_PHP: Enables HTTP header with PHP version. No default.
 #      - PHP_POST_MAX_SIZE=1024M        ##PHP_POST_MAX_SIZE: Maximum size for PHP POST requests. No default.      #8
-#      - PHP_UPLOAD_MAX_FILESIZE=1024M  ##PHP_UPLOAD_MAX_FILESIZE: Maximum file size for PHP uploads. No default. 
+#      - PHP_UPLOAD_MAX_FILESIZE=1024M  ##PHP_UPLOAD_MAX_FILESIZE: Maximum file size for PHP uploads. No default.
 #      - PHP_MEMORY_LIMIT=1024M         ##PHP_MEMORY_LIMIT: Memory limit for PHP scripts. Default: 512M
 
 #~ https://developer.wordpress.org/apis/wp-config-php/
@@ -183,14 +182,27 @@ services:
       retries: 5
       start_period: 20s
       timeout: 10s
+
+
+
+    security_opt:
+     - no-new-privileges:true
+
+    healthcheck:
+      test : ['CMD','/bitnami/scripts/healthcheck.php']
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
  
+
 #==================================================================
 
 networks:
   web:
 #~LAN~    name: ${TRAEFIK_4_LAN}
 #~WAN~    name: ${TRAEFIK_4_WAN}
-    external: true 
+    external: true
   db:
     name: ${TRAEFIK}-db
     external: true

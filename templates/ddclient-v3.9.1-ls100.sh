@@ -7,6 +7,10 @@
 # "ddclient-v3.9.1-ls100.sh"
 #
 
+#rm -r /volume1/docker_assistant/lan/ddclient-v3.9.1-ls100
+#rm /volume1/docker_assistant/templates/ddclient-v3.9.1-ls100/.env
+#docker network rm lan2router
+
 INCLUDE_PATH=../scripts
 ENV=lan
 SITE=ddclient-v3.9.1-ls100
@@ -104,11 +108,21 @@ tmpTimeZone=$(echo $TIME_ZONE | sed 's;/;\\/;g')
 sed -i "s/~TIME_ZONE~/$tmpTimeZone/g" $DOCKER_PATH/$ENV/$SITE/.env
 sed -i "s/~LAN_2_ROUTER~/$LAN_2_ROUTER/g" $DOCKER_PATH/$ENV/$SITE/.env
 
+echo $USER_GROUP
+
 echo "chown -R $USER_GROUP $DOCKER_PATH/$ENV/$SITE"
-chown -R "${USER_GROUP}" $DOCKER_PATH/$ENV/$SITE 
+echo "chmod 775 $DOCKER_PATH/$ENV/$SITE/"
+echo "chmod 660 $DOCKER_PATH/$ENV/$SITE/*"
+echo "chmod 770 $DOCKER_PATH/$ENV/$SITE/*.sh"
+echo "chown -R 1000:1000 $DOCKER_PATH/$ENV/$SITE/config"
+
+chown -R "${USER_GROUP}" $DOCKER_PATH/$ENV/$SITE
+chmod 775 $DOCKER_PATH/$ENV/$SITE/
 chmod 660 $DOCKER_PATH/$ENV/$SITE/*
 chmod 770 $DOCKER_PATH/$ENV/$SITE/*.sh
 chown -R 1000:1000 $DOCKER_PATH/$ENV/$SITE/config
+
+echo ${LAN_2_ROUTER}
 
 docker network create ${LAN_2_ROUTER}
 
