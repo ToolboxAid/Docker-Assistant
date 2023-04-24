@@ -135,7 +135,7 @@ File created:
 EOF
 
 get_docker_subnet ${LAN_2_ROUTER}
-echo -e "Remember to update your firewall rules for ports 80 & 443: ${Yellow}'$returnSubnet'${Color_Off}"lan2router
+echo -e "Remember to update your firewall rules for ports 80, 443  & 53: ${Yellow}'$returnSubnet'${Color_Off}"lan2router
 echo " ***** Not sure why, but I'm required to enter 'all' ports to get mine to work???"
 echo "If you see, 'docker-compose not able to connect to internet', most likely it's the firewal"
 
