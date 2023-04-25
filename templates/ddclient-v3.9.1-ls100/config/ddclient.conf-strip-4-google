@@ -52,8 +52,8 @@ use=web, web=checkip.dyndns.org/, web-skip='IP Address' # found after IP Address
 ## Google Domains (www.google.com/domains)
 
 # - - - - - - - - - - YYYY.MM.DD
-#protocol=googledomains
-#login=
+#protocol=googledomains,
+#login=,
 #password=
 #site.com
 
