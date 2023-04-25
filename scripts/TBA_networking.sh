@@ -103,7 +103,7 @@ get_gateway_info(){
 	gateway_card=${Arr[4]}	
 	
 #   subnet=$(ip route | grep ovs_eth0 | grep kernel)
-	subnet=$(ip route | grep eth0 | grep kernel)
+	subnet=$(ip route | grep $gateway_card | grep kernel)
 #	echo ${subnet}
 	IFS=": "
 	read -a Arr <<< "${subnet}"	
