@@ -53,8 +53,8 @@ services:
       web:
       db:
 
-    # tested with 6.1.1i -> wordpress:6
-    image: docker.io/bitnami/wordpress:latest
+    # tested with 6.1.1 -> wordpress:6
+    #image: docker.io/bitnami/wordpress:latest
 
     volumes:
       - /etc/localtime:/etc/localtime:ro
