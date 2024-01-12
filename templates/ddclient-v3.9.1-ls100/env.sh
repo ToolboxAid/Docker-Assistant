@@ -32,3 +32,4 @@ else
         echo " LAN_2_ROUTER : $LAN_2_ROUTER"
     echo -e "${Color_Off}"
 fi
+
