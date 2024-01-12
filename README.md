@@ -24,6 +24,7 @@
   | ############ | bridge         |bridge  | local |
   | ############ | host           |host    | local |
   | ############ | none           |null    | local |
+  
 
 ### What this will NOT do for you:
 - Teach you how to debug any issues you may have
