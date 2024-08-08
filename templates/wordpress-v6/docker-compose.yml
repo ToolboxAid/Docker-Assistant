@@ -179,7 +179,6 @@ services:
       - traefik.http.middlewares.${TRAEFIK}-non-www.redirectregex.replacement=https://${SITE}`/$${1}
       - traefik.http.middlewares.${TRAEFIK}-non-www.redirectregex.permanent=true
 
-
     security_opt:
      - no-new-privileges:true
 
