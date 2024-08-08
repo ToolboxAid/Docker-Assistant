@@ -96,7 +96,7 @@ services:
 
       - WORDPRESS_HTACCESS_OVERRIDE_NONE=yes
 
-      - WORDPRESS_ENABLE_HTACCESS_PERSISTENCE=no   #yes
+      - WORDPRESS_ENABLE_HTACCESS_PERSISTENCE=yes
       # yes -> /opt/bitnami/wordpress/wordpress-htaccess.conf
       # no --> /opt/bitnami/wordpress/.htaccess
 
@@ -149,13 +149,14 @@ services:
 #~WAN~      - traefik.docker.network=${TRAEFIK_4_WAN}
 
       - traefik.http.routers.${TRAEFIK}.service=${TRAEFIK}
-      - traefik.http.routers.${TRAEFIK}.rule=Host(`${SITE}`)
+
+      - traefik.http.routers.${TRAEFIK}.rule=Host(`${SITE}`) || Host(`www.${SITE}`)
       - traefik.http.routers.${TRAEFIK}.tls=true
       - traefik.http.routers.${TRAEFIK}.tls.certresolver=lets-encrypt
       - traefik.http.routers.${TRAEFIK}.entrypoints=websecure
 
-#~WAN~      - traefik.http.routers.${TRAEFIK}.middlewares=TBA-headers@file,TBA-redirect-htaccess@file,TBA-redirect-license@file
-#~LAN~      - traefik.http.routers.${TRAEFIK}.middlewares=TBA-headers@file,TBA-redirect-htaccess@file,TBA-redirect-license@file,${TRAEFIK}-whitelist@docker
+#~WAN~      - traefik.http.routers.${TRAEFIK}.middlewares=TBA-headers@file,TBA-redirect-htaccess@file,TBA-redirect-license@file,${TRAEFIK}-non-www@docker
+#~LAN~      - traefik.http.routers.${TRAEFIK}.middlewares=TBA-headers@file,TBA-redirect-htaccess@file,TBA-redirect-license@file,${TRAEFIK}-non-www@docker,${TRAEFIK}-whitelist@docker
 
 #~LAN~      - traefik.http.middlewares.${TRAEFIK}-whitelist.ipwhitelist.sourcerange=${IP_WHITE_LIST}
 #~LAN~      - traefik.http.middlewares.${TRAEFIK}-whitelist.ipwhitelist.ipstrategy.depth=0
@@ -173,6 +174,11 @@ services:
       - traefik.http.services.${TRAEFIK}.loadbalancer.server.url=http://${SITE}
       - traefik.http.services.${TRAEFIK}.loadbalancer.server.port=8080
       - traefik.http.services.${TRAEFIK}.loadbalancer.passHostHeader=true
+
+      - traefik.http.middlewares.${TRAEFIK}-non-www.redirectregex.regex=^https?://www.${SITE}`/(.*)
+      - traefik.http.middlewares.${TRAEFIK}-non-www.redirectregex.replacement=https://${SITE}`/$${1}
+      - traefik.http.middlewares.${TRAEFIK}-non-www.redirectregex.permanent=true
+
 
     security_opt:
      - no-new-privileges:true

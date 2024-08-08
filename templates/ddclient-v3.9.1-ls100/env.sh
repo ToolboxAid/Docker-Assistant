@@ -8,28 +8,28 @@
 #
 
 if [ $USER == "root" ]; then
-        load_env
+	load_env
 else
 
-        clear
+	clear
 
     BASE_EXE=`basename "$0"`
     echo ">>>>> $BASE_EXE <<<<<"
 
-        INCLUDE_PATH=../../scripts
+	INCLUDE_PATH=../../scripts
 
     . $INCLUDE_PATH/TBA_color.sh
     . $INCLUDE_PATH/TBA_functions.sh
-        . $INCLUDE_PATH/TBA_networking.sh
+	. $INCLUDE_PATH/TBA_networking.sh
     . $INCLUDE_PATH/TBA_env_file.sh
     echo -e "${IBlue}***** Function:  ${FUNCNAME} *****${Color_Off}"
-        load_env
+	load_env
 
     echo -e "${Purple}"
     echo " NAME         : $NAME"
     echo " TIME_ZONE    : $TIME_ZONE"
     echo " RESTART      : $RESTART"
-        echo " LAN_2_ROUTER : $LAN_2_ROUTER"
+    echo " DOCKER_2_WEB : $DOCKER_2_WEB"
     echo -e "${Color_Off}"
 fi
 

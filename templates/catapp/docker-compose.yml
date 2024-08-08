@@ -28,7 +28,7 @@ services:
      # We set a label to tell Traefik to assign a hostname to the new service
      labels:
        - "traefik.enable=true"
-       - "traefik.docker.network=${TRAEFIK_4_LAN}"
+       - "traefik.docker.network=t${TRAEFIK_4_LAN}"
 
        # Routes
 

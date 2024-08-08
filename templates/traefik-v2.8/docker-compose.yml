@@ -50,7 +50,6 @@ services:
     networks:
       router2traefik:
         ipv4_address: ${TRAEFIK_IP}
-
       traefik4wan: {}
       traefik4lan: {}
 
@@ -60,9 +59,6 @@ services:
       timeout: 10s
       retries: 5
 
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
 #------------------------------------------------------------
 networks:
   router2traefik:
