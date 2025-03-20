@@ -21,7 +21,7 @@ user@server:/volume1/ $ cd ./docker_assistant/
 ```
   
 ### 2 - Setup Docker Assistant environment setup
-- Execute script 'user@server:/volume1/docker_assistant/ $ sudo ./env.setup.sh'
+- Execute script 'user@server:/volume1/docker_assistant/ $ sudo ./setup.env.sh'
   - Please review/update your generated files for correctness
 ```
 /voloume1
